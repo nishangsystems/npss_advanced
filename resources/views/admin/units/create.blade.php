@@ -39,46 +39,6 @@
                 </div>
             </div>
 
-            @if(request('type') == 4)
-
-                <div class="form-group">
-                    <label  class="control-label col-lg-2 text-capitalize">{{__('text.degree_type')}}</label>
-                    <div class="col-lg-10">
-                        <select class=" form-control" name="degree_id" required>
-                            <option></option>
-                            @foreach ($degrees as $degree)
-                                <option value="{{ $degree->id }}" {{ old('degree_id') == $degree->id ? 'selected' : '' }}>{{ $degree->deg_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label  class="control-label col-lg-2 text-capitalize">{{__('text.word_background')}}</label>
-                    <div class="col-lg-10">
-                        <select class=" form-control" name="background_id" required>
-                            <option></option>
-                            @foreach ($backgrounds as $bg)
-                                <option value="{{ $bg->id }}" {{ old('background_id') == $bg->id ? 'selected' : '' }}>{{ $bg->background_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label  class="control-label col-lg-2 text-capitalize">{{__('text.grading_type')}}</label>
-                    <div class="col-lg-10">
-                        <select class=" form-control" name="grading_type_id" required>
-                            <option></option>
-                            @foreach ($grading_scales as $gsc)
-                                <option value="{{ $gsc->id }}" {{ old('gradint_type_id') == $gsc->id ? 'selected' : '' }}>{{ $gsc->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                
-            @endif
-
             <div class="form-group">
                 <div class="col-lg-offset-2 col-lg-10 text-capitalize">
                     <button class="btn btn-xs btn-primary" type="submit">{{__('text.word_save')}}</button>

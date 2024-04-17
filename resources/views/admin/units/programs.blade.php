@@ -2,9 +2,9 @@
 @section('section')
 <div class="py-3">
     <table class="table">
-        <thead>
+        <thead class="text-capitalize">
             <th>S/N</th>
-            <th>Program</th>
+            <th>@lang('text.word_program')</th>
             <th></th>
         </thead>
         <tbody>
@@ -14,7 +14,7 @@
                 <td>{{$k++}}</td>
                 <td>{{$program->name}}</td>
                 <td>
-                    <a href="{{route('admin.programs.levels', [$program->id])}}" class="btn btn-sm btn-primary">{{__('text.word_levels')}}</a> | 
+                    <a href="{{route('admin.programs.levels', [$program->id])}}" class="btn btn-sm btn-primary">{{__('text.word_levels')}}</a> 
                 </td>
             </tr>
             @endforeach

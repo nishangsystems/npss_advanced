@@ -211,7 +211,6 @@ class StudentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -219,7 +218,7 @@ class StudentController extends Controller
         // return $request->all();
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'matric' => 'required',
+            // 'matric' => 'required',
             'admission_batch_id' => 'required',
             'campus_id' => 'required',
             'program_id'=>'required',
@@ -233,7 +232,7 @@ class StudentController extends Controller
                 $input['name'] = mb_convert_case($request->name, MB_CASE_UPPER);
                 // $input['password'] = Hash::make('password');
                 // create a student
-                // $input['matric'] = $this->getNextAvailableMatricule($request->section);
+                $input['matric'] = $this->getNextAvailableMatricule($request->section);
                 $student = new \App\Models\Students($input);
                 $student->save();
                 // dd($student);
@@ -253,11 +252,12 @@ class StudentController extends Controller
                 return redirect()->to(route('admin.students.index', $request->program_id))->with('success', "Student saved successfully !");
             }
             else {
-                return back()->with('error', 'User with matricule '.$request->matric.' already exist');
+                throw new \Exception('User with matricule '.$request->matric.' already exist');
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', $e->getMessage());
+            session()->flash('error', "F::{$e->getFile()}, L::{$e->getLine()}, M::{$e->getMessage()}");
+            return back()->withInput();
         }
     }
 

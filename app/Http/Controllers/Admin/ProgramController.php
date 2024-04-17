@@ -464,6 +464,7 @@ class ProgramController extends Controller
     {
         $data['title'] = __('text.program_levels_for', ['unit'=>\App\Models\SchoolUnits::find($id)->name]);
         $data['program_levels'] =  ProgramLevel::where('program_id', $id)->pluck('level_id')->toArray();
+        $data['program'] =  SchoolUnits::find($id);
         // $data['program_levels'] =  DB::table('school_units')->where('school_units.id', '=', $id)
         //             ->join('program_levels', 'program_id', '=', 'school_units.id')
         //             ->join('levels', 'levels.id', '=', 'program_levels.level_id')
@@ -1030,5 +1031,21 @@ class ProgramController extends Controller
             return back()->with('success', 'Done');
         }
         return back();
+    }
+
+    public function storeStudentMatricPrefix(Request $request, $program_id, $level_id)
+    {
+        # code...
+        if(!$request->has('prefix')){
+            session()->flash('error', 'Prefix is required');
+            return back()->withInput();
+        }
+        $programLevel = ProgramLevel::where(['program_id'=>$program_id, 'level_id'=>$level_id])->first();
+        if($programLevel == null){
+            return back()->withInput()->with('error', 'Class not found');
+        }
+        $programLevel->update(['prefix'=>$request->prefix]);
+        return back()->with('success', 'Prefix saved successfully');
+
     }
 }

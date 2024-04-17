@@ -36,10 +36,7 @@
                             <td>{{$unit->type->name}}</td>
                             <td>{{$unit->prefix}}xx{{$unit->suffix}}xxx</td>
                             <td class="d-flex justify-content-end align-items-center text-capitalize">
-                                @if($unit->unit_id == 4)
-                                    <a class="btn btn-xs btn-info" href="{{route('admin.grading.set_type', [$unit->id])}}">{{__('text.set_grading_scale')}}</a> | 
-                                    <a class="btn btn-xs btn-warning" href="{{route('admin.semesters.set_type', [$unit->id])}}">{{__('text.set_semester_type')}}</a> | 
-                                @endif
+                                
                                 @if(request('action') == 'class_list')
                                     <a class="btn btn-xs btn-primary" href="{{route('admin.students.index', [$unit->id])}}?action={{request('action')}}">{{trans_choice('text.word_student', 2)}}</a> |
                                     <a  class="btn btn-xs btn-success" href="{{route('admin.units.index', [$unit->id])}}?action={{request('action')}}">{{__('text.sub_unit')}}</a>
