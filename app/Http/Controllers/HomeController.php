@@ -538,17 +538,21 @@ class HomeController extends Controller
 
     public function class_target($class_id)
     {
-        $lid = ProgramLevel::find($class_id)->level_id??0;
-        $classes = ProgramLevel::where('program_levels.id', $class_id)
-            ->join('program_levels as classes', 'classes.program_id', '=', 'program_levels.program_id')
-            ->where('classes.level_id', '>', $lid)
-            ->join('levels', 'levels.id', '=', 'classes.level_id')
-            ->join('school_units', 'school_units.id', '=', 'classes.program_id')
-            ->orderBy('classes.level_id')->distinct()->select('classes.*', 'school_units.name as program', 'levels.level')->get()
-            ->map(function($row){
-                $row->name = $row->program.' : '.__('text.word_level').' '.$row->level;
-                return $row;
-            });
+        $class = ProgramLevel::find($class_id);
+        if($class->target != null){
+            $classes = ProgramLevel::where('program_levels.id', $class->target)
+                ->get()
+                ->map(function($row){
+                    $row->name = $row->name();
+                    return $row;
+                });
+            }else{
+            $classes = ProgramLevel::all()
+                ->map(function($row){
+                    $row->name = $row->name();
+                    return $row;
+                });
+        }
         return response()->json(['classes'=> $classes]);
     }
     

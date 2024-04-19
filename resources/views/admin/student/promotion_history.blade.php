@@ -5,7 +5,7 @@
             <table class="table table-stripped">
                 <thead class="text-capitalize">
                     <th class="border-left border-right">#</th>
-                    <th class="border-left border-right">{{ __('text.word_program') }}</th>
+                    <th class="border-left border-right">{{ __('text.word_section') }}</th>
                     <th class="border-left border-right"></th>
                 </thead>
                 <tbody>

@@ -24,8 +24,8 @@
                         <select name="filter_key" id="" class="form-control text-uppercase" required>
                             <option value="">{{__('text.filter_by')}}</option>
                             <option value="class" {{request('filter_key') == 'class' ? 'selected' : ''}}>{{__('text.word_class')}}</option>
-                            <option value="program" {{request('filter_key') == 'program' ? 'selected' : ''}}>{{__('text.word_program')}}</option>
-                            <option value="level" {{request('filter_key') == 'level' ? 'selected' : ''}}>{{__('text.word_level')}}</option>
+                            {{-- <option value="program" {{request('filter_key') == 'program' ? 'selected' : ''}}>{{__('text.word_program')}}</option>
+                            <option value="level" {{request('filter_key') == 'level' ? 'selected' : ''}}>{{__('text.word_level')}}</option> --}}
                         </select>
                     </div>
                 </div>

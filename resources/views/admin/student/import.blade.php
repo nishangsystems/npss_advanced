@@ -58,7 +58,7 @@
                     </div>
     
                     <div class="form-group @error('program_id') has-error @enderror">
-                        <label for="cname" class="control-label col-lg-2 text-capitalize">{{__('text.word_program')}}</label>
+                        <label for="cname" class="control-label col-lg-2 text-capitalize">{{__('text.word_class')}}</label>
                         <div class="col-lg-10">
                             <select class=" form-control" name="program_id" id="program_id" required>
                             </select>

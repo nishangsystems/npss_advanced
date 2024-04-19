@@ -17,16 +17,16 @@
             </div>
         </div>
         <div class="row my-2">
-            <label for="" class="col-md-3">{{__('text.credit_value')}}</label>
+            <label for="" class="col-md-3">{{__('text.word_coefficient')}}</label>
             <div class="col-md-9 col-lg-9">
                 <input type="number" name="coef" id="" min="1" required class="form-control">
             </div>
         </div>
         <div class="row my-2">
-            <label for="" class="col-md-3">{{__('text.word_level')}}</label>
+            <label for="" class="col-md-3">{{__('text.word_class')}}</label>
             <div class="col-md-9 col-lg-9">
                 <select name="level" id="" required class="form-control">
-                    <option value="">{{__('text.select_level')}}</option>
+                    <option value="">{{__('text.select_class')}}</option>
                     @foreach(\App\Models\Level::all() as $level)
                     <option value="{{$level->id}}">{{$level->level}}</option>
                     @endforeach
@@ -55,8 +55,8 @@
                 <th>###</th>
                 <th>{{__('text.word_title')}}</th>
                 <th>{{__('text.course_code')}}</th>
-                <th>{{__('text.credit_value')}}</th>
-                <th>{{__('text.word_level')}}</th>
+                <th>{{__('text.word_coefficient')}}</th>
+                <th>{{__('text.word_class')}}</th>
                 <th>{{__('text.word_status')}}</th>
                 <th></th>
             </thead>

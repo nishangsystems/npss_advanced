@@ -36,7 +36,7 @@
                     </tr>
                 @endforeach
             </tbody>
-            @else
+        @else
             
         <!-- list program levels (classes) -->
             @if(!request()->has('id'))

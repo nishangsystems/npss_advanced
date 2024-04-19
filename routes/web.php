@@ -156,6 +156,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::get('programs/assign_level', 'Admin\ProgramController@assign_program_level')->name('programs.set_levels');
     Route::post('programs/assign_level', 'Admin\ProgramController@store_program_level');
     Route::get('programs/{id}/levels', 'Admin\ProgramController@program_levels')->name('programs.levels');
+    Route::post('programs_levels/target/{program_id}/{level_id}', 'Admin\ProgramController@storePromotionTarget')->name('class.save_target');
     Route::get('programs/{id}/levels/{level_id}/add', 'Admin\ProgramController@add_program_level')->name('programs.levels.add');
     Route::get('programs/{id}/levels/{levle_id}/drop', 'Admin\ProgramController@drop_program_level')->name('programs.levels.drop');
     Route::get('programs/index', 'Admin\ProgramController@program_index')->name('programs.index');
@@ -249,7 +250,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
 
     Route::resource('subjects', 'Admin\SubjectController');
     Route::post('subjects/create/next', 'Admin\SubjectController@next')->name('courses.create_next');
-    Route::get('subjects/create/{background}/{semester}', 'Admin\SubjectController@_create')->name('courses._create');
+    Route::get('subjects/create/{semester}', 'Admin\SubjectController@_create')->name('courses._create');
     Route::get('classmaster', 'Admin\UserController@classmaster')->name('users.classmaster');
     Route::post('classmaster', 'Admin\UserController@saveClassmaster')->name('users.classmaster');
     Route::delete('classmaster', 'Admin\UserController@deleteMaster')->name('users.classmaster');

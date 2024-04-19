@@ -216,18 +216,19 @@
         <div class="">
             <table class="table-stripped table-light">
                 <thead class="border-top border-bottom border-dark bg-dark text-white text-capitalize" style="font-weight: semibold;">
-                    <tr>
-                        <th colspan="5" class="border-left border-right border-secondary">{{ __('text.sn') }}</th>
-                        <th colspan="{{ count($levels) }}" class="border-left border-right border-secondary text-capitalize">{{ __('text.word_level') }}</th>
-                    </tr>
-                    <tr>
+                    <tr class="border-top border-bottom">
                         <th class="border-left border-right border-secondary">{{ __('text.sn') }}</th>
-                        <th class="border-left border-right border-secondary">{{ __('text.word_program') }}</th>
-                        <th class="border-left border-right border-secondary">{{ __('text.no_of_students') }}</th>
-                        <th class="border-left border-right border-secondary">{{ __('text.word_males') }}</th>
-                        <th class="border-left border-right border-secondary">{{ __('text.word_females') }}</th>
+                        <th colspan="4" class="border-left border-right border-secondary"></th>
+                        <th colspan="{{ count($levels) }}" class="border-left border-right border-secondary text-capitalize">{{ __('text.word_class') }}</th>
+                    </tr>
+                    <tr class="border-top border-bottom" style="letter-spacing: 2px !important;">
+                        <th class="border-left border-right border-secondary"> <span style="">{{ __('text.sn') }}</span></th>
+                        <th class="border-left border-right border-secondary"> <span style="">{{ __('text.word_program') }}</span></th>
+                        <th class="border-left border-right border-secondary"> <span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{ __('text.no_of_students') }}</span></th>
+                        <th class="border-left border-right border-secondary"> <span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{ __('text.word_males') }}</span></th>
+                        <th class="border-left border-right border-secondary"> <span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{ __('text.word_females') }}</span></th>
                         @foreach ($levels as $level)
-                            <th class="border-left border-right border-secondary">{{ $level->level }}</th>
+                            <th class="border-left border-right border-secondary"> <span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{ $level->level }}</span></th>
                         @endforeach
                     </tr>
                 </thead>

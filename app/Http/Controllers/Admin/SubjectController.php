@@ -18,7 +18,7 @@ class SubjectController extends Controller
     public function next(Request $request)
     {
         # code...
-        return redirect(route('admin.courses._create', [$request->background, $request->semester]));
+        return redirect(route('admin.courses._create', [$request->semester]));
     }
 
     public function _create(Request $request)

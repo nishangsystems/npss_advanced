@@ -566,7 +566,7 @@ class ProgramController extends Controller
                     return view('admin.student.student_list_index', $data);
                     // break;
                 
-                case 'PROGRAM':
+                case 'SECTION':
                     # code...
                     $programs = SchoolUnits::where(['unit_id'=>4])->get();
                     // dd($programs);
@@ -586,18 +586,8 @@ class ProgramController extends Controller
                     }
                     return view('admin.student.student_list_index', $data);
                     // break;
-                
-                case 'LEVEL':
-                    # code...
-                    $levels = Level::all();
-                    foreach ($levels as $key => $value) {
-                        $data['items'][] = ['id'=>$value->id, 'name'=>'Level '.$value->level];
-                        # code...
-                    }
-                    return view('admin.student.student_list_index', $data);
-                    // break;
                     
-                    default:
+                default:
                     # code...
                     break;
                 }
@@ -912,7 +902,7 @@ class ProgramController extends Controller
         $student = Students::find($student_id);
         if($student != null){
             $class = $student->_class();
-            $data['title'] = "Change Department/Program/Level For ".($student->name??'').' - ( Matric: '.($student->matric??'').')';
+            $data['title'] = "Change Department/Section/Class For ".($student->name??'').' - ( Matric: '.($student->matric??'').')';
             $data['program'] = $class->program;
             $data['programs'] = SchoolUnits::where('unit_id', '=', '4')->orderBy('name')->get();
             $data['department'] = $class->program->parent;
@@ -950,14 +940,14 @@ class ProgramController extends Controller
                 \App\Models\Payments::where(['student_id'=>$student_id, 'payment_year_id'=>$this->current_accademic_year])->update(['unit_id'=>$class->id, 'payment_id'=>$fee_item->id??null]);
                 // update student matricule if program changes
                 // dd($former_class);
-                if($former_class->program_id == $request->program){
-                    DB::commit();
-                    return back()->with('success', 'Student Section successfully updated');
-                }
+                // if($former_class->program_id == $request->program){
+                //     DB::commit();
+                //     return back()->with('success', 'Student Section successfully updated');
+                // }
                 // dd($program);
                 $next_matric = null;
-                if(($prefix = ($program->prefix == null) ? $program->parent->prefix : $program->prefix) != null){
-                    $template = $prefix.'/'.substr(Batch::find($this->current_accademic_year)->name, 2, 2).'/';
+                if(($prefix = ($class->prefix == null) ? $program->prefix : $class->prefix) != null){
+                    $template = $prefix.substr(Batch::find($this->current_accademic_year)->name, -2);
                     // dd(Students::where('matric', 'LIKE', "%{$template}%")->orderBy('matric', 'DESC')->get());
                     $last_matric = Students::where('matric', 'LIKE', "%{$template}%")->orderBy('matric', 'DESC')->first()->matric??null;
                     if($last_matric == null){
@@ -1044,7 +1034,29 @@ class ProgramController extends Controller
         if($programLevel == null){
             return back()->withInput()->with('error', 'Class not found');
         }
-        $programLevel->update(['prefix'=>$request->prefix]);
+        // dd($request->prefix);
+        $programLevel->prefix = $request->prefix;
+        $programLevel->save();
+        // dd($programLevel);
+        return back()->with('success', 'Prefix saved successfully');
+
+    }
+
+    public function storePromotionTarget(Request $request, $program_id, $level_id)
+    {
+        # code...
+        if(!$request->has('target')){
+            session()->flash('error', 'Target is required');
+            return back()->withInput();
+        }
+        $programLevel = ProgramLevel::where(['program_id'=>$program_id, 'level_id'=>$level_id])->first();
+        if($programLevel == null){
+            return back()->withInput()->with('error', 'Class not found');
+        }
+        // dd($request->prefix);
+        $programLevel->target = $request->target;
+        $programLevel->save();
+        // dd($programLevel);
         return back()->with('success', 'Prefix saved successfully');
 
     }

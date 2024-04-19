@@ -6,6 +6,7 @@
             <th>S/N</th>
             <th>{{__('text.word_level')}}</th>
             <th>{{__('text.word_matricule')}}/@lang('text.word_prefix')</th>
+            <th>{{__('text.word_target')}}</th>
             <th></th>
         </thead>
         <tbody>
@@ -15,7 +16,7 @@
                 <td>{{$k++}}</td>
                 <td>{{$level->level}}</td>
                 <td>
-                    @if(!in_array($level->id, $program_levels))
+                    @if(in_array($level->id, $program_levels))
                         <form method="POST"  action="{{ route('admin.students.matricule.prefix', ['program_id'=>$program->id, 'level_id'=>$level->id]) }}">
                             @csrf
                             <div class="d-flex">
@@ -24,7 +25,25 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-xs rounded "><span class="fa fa-save"></span><button>
                             </div>
-                        <form>
+                        </form>
+                    @endif
+                </td>
+                <td>
+                    @if(in_array($level->id, $program_levels))
+                        <form method="POST"  action="{{ route('admin.class.save_target', ['program_id'=>$program->id, 'level_id'=>$level->id]) }}">
+                            @csrf
+                            <div class="d-flex">
+                                <div>
+                                    <select class="form-control rounded" name="target">
+                                        <option value="">target</option>
+                                        @foreach (\App\Models\ProgramLevel::where(['program_id'=>$program->id])->get() as $class)
+                                            <option value="{{ $class->id }}" {{ (\App\Models\ProgramLevel::where(['program_id'=>$program->id, 'level_id'=>$level->id])->first()->target??null) == $class->id ? 'selected' : '' }}>{{ $class->name() }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-xs rounded "><span class="fa fa-save"></span><button>
+                            </div>
+                        </form>
                     @endif
                 </td>
                 <td>

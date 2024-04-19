@@ -232,7 +232,7 @@ class StudentController extends Controller
                 $input['name'] = mb_convert_case($request->name, MB_CASE_UPPER);
                 // $input['password'] = Hash::make('password');
                 // create a student
-                $input['matric'] = $this->getNextAvailableMatricule($request->section);
+                $input['matric'] = $this->getNextAvailableMatricule($request->program_id);
                 $student = new \App\Models\Students($input);
                 $student->save();
                 // dd($student);
@@ -263,10 +263,11 @@ class StudentController extends Controller
 
     public function getNextAvailableMatricule($section)
     {
-        $unit = \App\Models\SchoolUnits::find($section);
+        $unit = \App\Models\ProgramLevel::find($section);
         $academic_year_name = \App\Models\Batch::find(Helpers::instance()->getCurrentAccademicYear())->name;
-        $matric_template = $unit->prefix . substr($academic_year_name, 2, 2) . $unit->suffix;
+        $matric_template = ($unit->prefix??'') . substr($academic_year_name, 2, 2) . ($unit->suffix??'');
 
+        // dd($matric_template);
         $last_matric = DB::table('students')
                         ->whereRaw('students.matric like "'.$matric_template.'%"')
                         ->orderBy('matric', 'desc')

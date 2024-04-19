@@ -787,13 +787,6 @@
                         </a>
                         <b class="arrow"></b>
                     </li>
-                    <li>
-                        <a href="{{route('admin.banks')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.word_banks')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
 
                 </ul>
             </li>
@@ -1519,22 +1512,6 @@
                     @endif
 
                     <li>
-                        <a href="{{route('admin.headOfSchools.users')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                           {{trans_choice('text.head_of_school', 2)}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li>
-                        <a href="{{route('admin.users.classmaster')}}?type=teacher" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                           {{trans_choice('text.word_HOD', 2)}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li>
                         <a href="{{route('admin.users.index')}}?type=teacher" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{trans_choice('text.word_teacher', 2)}}
@@ -1542,13 +1519,6 @@
                         <b class="arrow"></b>
                     </li>
 
-                    <li>
-                        <a href="{{route('admin.delegates.index')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.class_delegates')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
 
                     @if(auth()->user()->campus_id == null)
                     <li>

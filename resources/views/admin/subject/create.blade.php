@@ -6,7 +6,7 @@
         <div class="form-panel">
             <form class="cmxform form-horizontal style-form" method="post" action="{{route('admin.courses.create_next')}}">
                 {{csrf_field()}}
-                <div class="form-group @error('name') has-error @enderror">
+                {{-- <div class="form-group @error('name') has-error @enderror">
                     <label for="cname" class="control-label col-lg-2 text-capitalize">{{__('text.word_background')}} ({{__('text.word_required')}})</label>
                     <div class="col-lg-10">
                         <select class=" form-control" name="background" required onchange="loadSemesters(event.target)">
@@ -16,12 +16,17 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="form-group @error('coef') has-error @enderror" id="semesters-box">
                     <label for="cname" class="control-label col-lg-2 text-capitalize">{{__('text.word_semester')}} ({{__('text.word_required')}})</label>
                     <div class="col-lg-10" id="semesters">
-                        <input class=" form-control" name="coef" value="{{old('coef')}}" type="number" required  disabled/>
+                        <select class=" form-control" name="semester" required >
+                            <option value="">{{__('text.select_semester')}}</option>
+                            @foreach(\App\Models\Semester::all() as $sem)
+                                <option value="{{$sem->id}}">{{$sem->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 

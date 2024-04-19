@@ -6,13 +6,13 @@
             <div class="col-12 col-md-9 col-lg-10">
                 <div class="row ">
                     <div class="col-12 col-lg-4">
-                        <span class="d-block mb-1"> <i class="text-info">Department</i> : {{ $department->name??'' }}<span>
+                        <span class="d-block mb-1"> <i class="text-info text-capitalize">@lang('text.word_department')</i> : {{ $department->name??'' }}<span>
                     </div><hr>
                     <div class="col-12 col-lg-4">
-                        <span class="d-block mb-1"> <i class="text-info">Program</i> : {{ $program->name??'' }}<span>
+                        <span class="d-block mb-1"> <i class="text-info text-capitalize">@lang('text.word_section')</i> : {{ $program->name??'' }}<span>
                     </div><hr>
                     <div class="col-12 col-lg-4">
-                        <span class="d-block mb-1"> <i class="text-info">Level</i> : {{ $level->level }}<span>
+                        <span class="d-block mb-1"> <i class="text-info text-capitalize">@lang('text.word_class')</i> : {{ $level->level }}<span>
                     </div><hr>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     </div> --}}
                     <div class="my-2 container">
                         <div class="row"> 
-                            <i class="text-info col-md-3">Program</i> : 
+                            <i class="text-info col-md-3 text-capitalize">@lang('text.word_section')</i> : 
                             <div class="col-md-9" id="__programs">
                                 <select class="form-control" name="program" required onchange="loadLevels(event)">
                                     <option></option>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="my-2 container">
                         <div class="row"> 
-                            <i class="text-info col-md-3">Level</i> : 
+                            <i class="text-info col-md-3 text-capitalize">@lang('text.word_class')</i> : 
                             <div class="col-md-9">
                                 <select class="form-control" name="level" required id="__levels">
                                     <option></option>

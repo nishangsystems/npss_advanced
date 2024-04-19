@@ -35,7 +35,7 @@
                 </div>
             </div> --}}
             <div class="form-group @error('phone') has-error @enderror">
-                <label for="cname" class="control-label col-lg-2 text-capitalize">{{__('text.word_phone')}} </label>
+                <label for="cname" class="control-label col-lg-2 text-capitalize">{{__('text.guidian_tel')}} </label>
                 <div class="col-lg-10">
                     <input class=" form-control" name="phone" value="{{old('phone')}}" type="tel" />
                     @error('phone')
@@ -111,10 +111,10 @@
                     @if(\Auth::user()->campus_id != null)
                     <input type="hidden" name="campus_id" id="" value="{{\Auth::user()->campus_id}}">
                     @endif
-                    <select name="campus_id" class="form-control" id="campus_id" onchange="loadPrograms(event.target)" {{ \Auth::user()->campus_id != null ? 'disabled' : ''}}>
+                    <select name="campus_id" class="form-control" id="campus_id" oninput="loadPrograms(event.target)" {{ \Auth::user()->campus_id != null ? 'disabled' : ''}}>
                         <option value="">select campus</option>
                         @forelse(\App\Models\Campus::all() as $campus)
-                            <option value="{{$campus->id}}" {{ \Auth::user()->campus_id == $campus->id ? 'selected' : ''}}>{{$campus->name}}</option>
+                            <option value="{{$campus->id}}" {{ \App\Models\Campus::first() == $campus ? 'selected' : ''}}>{{$campus->name}}</option>
                         @empty
                             <option value="" selected>No data found</option>
                         @endforelse
@@ -126,7 +126,7 @@
             </div>
 
             <div class="form-group @error('program_id') has-error @enderror">
-                <label for="cname" class="control-label col-lg-2 text-capitalize">{{__('text.word_program')}}</label>
+                <label for="cname" class="control-label col-lg-2 text-capitalize">{{__('text.word_class')}}</label>
                 <div class="col-lg-10">
                     <select class=" form-control" name="program_id" id="program_id" required>
                     </select>
