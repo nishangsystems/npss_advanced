@@ -439,14 +439,14 @@
                     @endif
 
                     @if(auth()->user()->campus_id == null)
-                    {{-- <li>
+                    <li>
                         <a href="{{route('admin.sections')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.manage_sections')}}
                         </a>
 
                         <b class="arrow"></b>
-                    </li> --}}
+                    </li>
                     
                     <li>
                         <a href="{{route('admin.programs.index')}}" class="text-capitalize">
