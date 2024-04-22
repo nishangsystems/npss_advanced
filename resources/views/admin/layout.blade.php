@@ -368,7 +368,7 @@
 
                 <ul class="submenu">
                     
-                    @if(auth()->user()->campus_id == null)
+                    {{-- @if(auth()->user()->campus_id == null)
                     <li>
                         <a href="{{route('admin.program_settings')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
@@ -376,9 +376,9 @@
                         </a>
                         <b class="arrow"></b>
                     </li>
-                    @endif
+                    @endif --}}
 
-                    @if (auth()->user()->can('manage_charges'))
+                    {{-- @if (auth()->user()->can('manage_charges'))
                         <li>
                             <a href="{{route('admin.charges.set')}}" class="text-capitalize">
                                 <i class="menu-icon fa fa-caret-right"></i>
@@ -386,48 +386,48 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
-                    @endif
-                    <li>
+                    @endif --}}
+                    {{-- <li>
                         <a href="{{route('admin.users.wages.index')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                            {{__('text.hourly_wages')}}
                         </a>
                         <b class="arrow"></b>
-                    </li>
+                    </li> --}}
 
-                    <li>
+                    {{-- <li>
                         <a href="{{route('admin.custom_resit.create')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                            {{__('text.manage_custom_resits')}}
                         </a>
                         <b class="arrow"></b>
-                    </li>
+                    </li> --}}
 
                     @if(auth()->user()->campus_id == null)
-                        <li>
+                        {{-- <li>
                             <a href="{{route('admin.result.settings')}}" class="text-capitalize">
                                 <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.results_date_line')}}
                             </a>
                             <b class="arrow"></b>
-                        </li>
-                        <li>
+                        </li> --}}
+                        {{-- <li>
                             <a href="{{route('admin.course.date_line')}}" class="text-capitalize">
                                 <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.course_registration_date_line')}}
                             </a>
                             <b class="arrow"></b>
-                        </li>
+                        </li> --}}
                         
-                        <li>
+                        {{-- <li>
                             <a href="{{route('admin.result.publishing')}}" class="text-capitalize">
                                 <i class="menu-icon fa fa-caret-right"></i>
                                 {{__('text.publish_results')}}
                             </a>
                             <b class="arrow"></b>
-                        </li>
+                        </li> --}}
 
-                        @if (auth()->user()->can('access_hidden_features'))
+                        {{-- @if (auth()->user()->can('access_hidden_features'))
                             <li>
                                 <a href="{{route('admin.set_background_image')}}" class="text-capitalize">
                                     <i class="menu-icon fa fa-caret-right"></i>
@@ -435,18 +435,18 @@
                                 </a>
                                 <b class="arrow"></b>
                             </li> 
-                        @endif
+                        @endif --}}
                     @endif
 
                     @if(auth()->user()->campus_id == null)
-                    <li>
+                    {{-- <li>
                         <a href="{{route('admin.sections')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.manage_sections')}}
                         </a>
 
                         <b class="arrow"></b>
-                    </li>
+                    </li> --}}
                     
                     <li>
                         <a href="{{route('admin.programs.index')}}" class="text-capitalize">
@@ -458,22 +458,22 @@
                     </li>
 
                     
-                    <li>
+                    {{-- <li>
                         <a href="{{route('admin.result_release.index')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                            {{__('text.add_result_release')}}
                         </a>
                         <b class="arrow"></b>
-                    </li>
+                    </li> --}}
 
                     
-                    <li>
+                    {{-- <li>
                         <a href="{{route('admin.schools.index')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                            {{__('text.manage_school')}}
                         </a>
                         <b class="arrow"></b>
-                    </li>
+                    </li> --}}
                     @endif
 
                     <li>
@@ -575,7 +575,7 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
-                        @if (\Auth::user()->hasPermissionTo('demote_students-option_already_removed'))
+                        {{-- @if (\Auth::user()->hasPermissionTo('demote_students-option_already_removed'))
                             <li>
                                 <a href="{{route('admin.students.init_demotion')}}?type=promotion" class="text-capitalize">
                                     <strong style="color: {{$bg1}}" class="menu-icon">&Rrightarrow;</strong>
@@ -590,8 +590,8 @@
                                 </a>
                                 <b class="arrow"></b>
                             </li>
-                        @endif
-                        @if (\Auth::user()->hasPermissionTo('approve_promotion'))
+                        @endif --}}
+                        {{-- @if (\Auth::user()->hasPermissionTo('approve_promotion'))
                             <li>
                                 <a href="{{route('admin.students.trigger_approval')}}" class="text-capitalize">
                                     <strong style="color: {{$bg1}}" class="menu-icon">&Rrightarrow;</strong>
@@ -599,8 +599,8 @@
                                 </a>
                                 <b class="arrow"></b>
                             </li>
-                        @endif
-                        @if (\Auth::user()->hasPermissionTo('bypass_result'))
+                        @endif --}}
+                        {{-- @if (\Auth::user()->hasPermissionTo('bypass_result'))
                             <li>
                                 <a href="{{route('admin.result.bypass')}}" class="text-capitalize">
                                     <strong style="color: {{$bg1}}" class="menu-icon">&Rrightarrow;</strong>
@@ -608,7 +608,7 @@
                                 </a>
                                 <b class="arrow"></b>
                             </li>
-                        @endif
+                        @endif --}}
                         <li>
                             <a href="{{route('admin.student.section')}}" class="text-capitalize">
                                 <strong style="color: {{$bg1}}" class="menu-icon">&Rrightarrow;</strong>
@@ -616,18 +616,18 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="{{route('admin.bio_data.download')}}" class="text-capitalize">
                                 <strong style="color: {{$bg1}}" class="menu-icon">&Rrightarrow;</strong>
                                 @lang('text.student_data')
                             </a>
                             <b class="arrow"></b>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
             @endif
 
-            @if (\Auth::user()->hasPermissionTo('manage_resits'))
+            {{-- @if (\Auth::user()->hasPermissionTo('manage_resits'))
             <li>
                 <a href="#" class="dropdown-toggle">
                 <i style="color: {{$bg1}}" class="menu-icon fa fa-recycle"></i>
@@ -648,7 +648,7 @@
                     </li>
                 </ul>
             </li>
-            @endif
+            @endif --}}
 
             @if (\Auth::user()->hasPermissionTo('manage_fee'))
             <li>
@@ -792,7 +792,7 @@
             </li>
             @endif
 
-            @if (\Auth::user()->hasPermissionTo('manage_result'))
+            {{-- @if (\Auth::user()->hasPermissionTo('manage_result'))
             <li>
                 <a href="#" class="dropdown-toggle text-capitalize">
                     <i  style="color: {{$bg1}}"class="menu-icon  fa fa-folder-open"></i>
@@ -849,9 +849,9 @@
                     </li>
                 </ul>
             </li>
-            @endif
+            @endif --}}
 
-            @if (\Auth::user()->hasPermissionTo('manage_result_coding'))
+            {{-- @if (\Auth::user()->hasPermissionTo('manage_result_coding'))
             <li>
                 <a href="#" class="dropdown-toggle text-capitalize">
                     <i  style="color: {{$bg1}}"class="menu-icon  fa fa-folder-open"></i>
@@ -872,25 +872,9 @@
                         <b class="arrow"></b>
                     </li>
                     
-                    {{-- <li>
-                        <a href="{{route('admin.result.coded.students')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.student_coding')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li>
-                        <a href="{{route('admin.result.coded.import')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.import_exams')}}
-                        </a>    
-                        <b class="arrow"></b>
-                    </li>     --}}
-
                 </ul>
             </li>
-            @endif
+            @endif --}}
 
             @if (\Auth::user()->hasPermissionTo('manage_scholarship'))
             <li>
@@ -1037,7 +1021,7 @@
             @endif
 
 
-            @if (\Auth::user()->hasPermissionTo('manage_notifications'))
+            {{-- @if (\Auth::user()->hasPermissionTo('manage_notifications'))
             <li>
                 <a href="#" class="dropdown-toggle text-capitalize">
                 <i style="color: {{$bg1}}" class="menu-icon fa fa-bell"></i>
@@ -1070,9 +1054,9 @@
                     </li>
                 </ul>
             </li>
-            @endif
+            @endif --}}
             
-            @if(auth()->user()->campus_id != null)
+            {{-- @if(auth()->user()->campus_id != null)
                 @if (\Auth::user()->hasPermissionTo('manage_notifications'))
                 <li>
                     <a href="#" class="dropdown-toggle text-capitalize">
@@ -1128,7 +1112,7 @@
                     </ul>
                 </li>
                 @endif
-            @endif
+            @endif --}}
 
 
             @if (\Auth::user()->hasPermissionTo('manage_expenses'))
@@ -1154,7 +1138,7 @@
             </li>
             @endif
 
-            @if (\Auth::user()->hasPermissionTo('manage_school_debts'))
+            {{-- @if (\Auth::user()->hasPermissionTo('manage_school_debts'))
             <li>
                 <a href="#" class="dropdown-toggle text-capitalize">
                 <i class="menu-icon fa fa-money"></i>
@@ -1173,7 +1157,7 @@
                     </li>
                 </ul>
             </li>
-            @endif
+            @endif --}}
 
             
             @if (\Auth::user()->hasPermissionTo('manage_statistics'))
@@ -1254,7 +1238,7 @@
             </li>
             @endif
 
-            @if (\Auth::user()->hasPermissionTo('manage_importation'))
+            {{-- @if (\Auth::user()->hasPermissionTo('manage_importation'))
             <li>
                 <a href="#" class="dropdown-toggle">
                     <i  style="color: {{$bg1}}"class="menu-icon  fa fa-rocket"></i>
@@ -1307,9 +1291,9 @@
                     </li>
                 </ul>
             </li>
-            @endif
+            @endif --}}
 
-            @if (\Auth::user()->hasPermissionTo('manage_result'))
+            {{-- @if (\Auth::user()->hasPermissionTo('manage_result'))
             <li>
                 <a href="#" class="dropdown-toggle text-capitalize">
                     <i  style="color: {{$bg1}}"class="menu-icon fa fa-question-circle"></i>
@@ -1349,10 +1333,10 @@
 
                 </ul>
             </li>
-            @endif
+            @endif --}}
 
 
-            @if (\Auth::user()->hasPermissionTo('manage_transcripts_and_results'))
+            {{-- @if (\Auth::user()->hasPermissionTo('manage_transcripts_and_results'))
             <li>
                 <a href="#" class="dropdown-toggle text-capitalize">
                     <i  style="color: {{$bg1}}"class="menu-icon  fa fa-circle"></i>
@@ -1439,11 +1423,11 @@
                     </li>
                 </ul>
             </li>
-            @endif
+            @endif --}}
 
 
             
-            @if (\Auth::user()->hasPermissionTo('manage_transcripts'))
+            {{-- @if (\Auth::user()->hasPermissionTo('manage_transcripts'))
                 <li>
                     <a href="#" class="dropdown-toggle text-capitalize">
                         <i  style="color: {{$bg1}}"class="menu-icon  fa fa-flag"></i>
@@ -1487,7 +1471,7 @@
                     </ul>
                 </li>
             @endif
-            
+             --}}
 
             
             @if (\Auth::user()->hasPermissionTo('manage_user'))
@@ -1545,7 +1529,7 @@
             
 
             
-            @if (\Auth::user()->hasPermissionTo('manage_attendance'))
+            {{-- @if (\Auth::user()->hasPermissionTo('manage_attendance'))
             <!-- Attendance management -->
             <li>
                 <a href="#" class="dropdown-toggle text-capitalize">
@@ -1576,10 +1560,10 @@
                 </ul>
             </li>
             <!-- End attaendance management -->
-            @endif
+            @endif --}}
 
             
-            @if (\Auth::user()->headOfSchoolFor()->count() > 0)
+            {{-- @if (\Auth::user()->headOfSchoolFor()->count() > 0)
             <!-- Attendance management -->
             <li>
                 <a href="#" class="dropdown-toggle text-capitalize">
@@ -1601,7 +1585,7 @@
                 </ul>
             </li>
             <!-- End attaendance management -->
-            @endif
+            @endif --}}
 
             <li>
                 <a href="{{route('admin.reset_password')}}" class="text-capitalize">
