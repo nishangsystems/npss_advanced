@@ -98,45 +98,9 @@ class HomeController  extends Controller
         $data['year'] = $year;
         
         $auth_user = auth()->user();
-        $schools = $auth_user->headOfSchoolFor(1)->get();
         // $schools = SchoolUnits::where('id', '<=', '2')->get();
         
-        if($schools->count() > 0){
-            $data['is_head_of_school'] = true;
-            $programs = Helpers::instance()->schoolPrograms($schools->pluck('id')->toArray());
-            $program_students = SchoolUnits::whereIn('school_units.id', $programs->pluck('id')->toArray())->join('program_levels', 'program_levels.program_id', '=', 'school_units.id')
-                ->join('student_classes', 'student_classes.class_id', '=', 'program_levels.id')->where('student_classes.year_id', $year)
-                ->join('students', 'students.id', '=', 'student_classes.student_id')
-                ->where(function($query)use($campus_id){
-                    $campus_id != null ? $query->where('students.campus_id', $campus_id) : null;
-                })->distinct()->get(['school_units.id', 'school_units.name as program_name', 'school_units.id as program', 'students.id as student_id', 'students.gender', 'program_levels.level_id'])->groupBy('program')->each(function($rec)use($levels){
-                    // return $rec;
-                    $rec->levels = $levels->map(function($level)use($rec){
-                        return $rec->where('level_id', $level->id)->count();
-                    });
-                });
-            
-            $students = SchoolUnits::whereIn('school_units.id', $programs->pluck('id')->toArray())->join('program_levels', 'program_levels.program_id', '=', 'school_units.id')
-                ->join('student_classes', 'student_classes.class_id', '=', 'program_levels.id')->where('student_classes.year_id', $year)
-                ->join('students', 'students.id', '=', 'student_classes.student_id')
-                ->where(function($query)use($campus_id){
-                    $campus_id != null ? $query->where('students.campus_id', $campus_id) : null;
-                })->distinct()->get(['students.*']);
-
-            
-            $data['n_programs'] = $programs->count();
-            $data['sms_total'] = Config::where('year_id', $year)->first()->sms_sent;
-            $data['n_teachers'] = User::where('type', 'teacher')
-                ->join('teachers_subjects', 'teachers_subjects.teacher_id',  '=', 'users.id')
-                ->where(function($query)use($campus_id){
-                    $campus_id != null ? $query->where('teachers_subjects.campus_id', $campus_id) : null;
-                })
-                ->join('program_levels', 'program_levels.id', '=', 'teachers_subjects.class_id')
-                ->whereIn('program_levels.program_id', $programs->pluck('id')->toArray())
-                ->select('users.*')->distinct()->count();
-
-            $data['n_teachers'] = User::where('type', 'teacher')->count(); 
-        }else{
+        
             $programs = SchoolUnits::where('school_units.unit_id', 4);
             $program_students = SchoolUnits::where('school_units.unit_id', 4)->join('program_levels', 'program_levels.program_id', '=', 'school_units.id')
                 ->join('student_classes', 'student_classes.class_id', '=', 'program_levels.id')->where('student_classes.year_id', $year)
@@ -160,7 +124,6 @@ class HomeController  extends Controller
             $data['sms_total'] = Config::where('year_id', $year)->first()->sms_sent;
             $data['n_teachers'] = User::where('type', 'teacher')->count();
 
-        }
         // dd($students);
         $data['active_students'] = $students->where('active', 1);
         $data['inactive_students'] = $students->where('active', 0);
