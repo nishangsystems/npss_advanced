@@ -468,7 +468,7 @@ class HomeController extends Controller
             $past_scholarship = StudentScholarship::where('student_id', $student->id)->where('batch_id', '<', $year)->distinct()->sum('amount');
 
             $current_extra_fees = ExtraFee::where('student_id', $student->id)->where('year_id', '=', $year)->distinct()->sum('amount');
-            $current_extra_fees = ExtraFee::where('student_id', $student->id)->where('year_id', '<=', $year)->distinct()->sum('amount');
+            $cum_extra_fees = ExtraFee::where('student_id', $student->id)->where('year_id', '<=', $year)->distinct()->sum('amount');
             $past_extra_fees = ExtraFee::where('student_id', $student->id)->where('year_id', '<', $year)->distinct()->sum('amount');
 
             // dd($fee_items);
@@ -477,10 +477,11 @@ class HomeController extends Controller
                 'link'=>route('admin.fee.student.payments.index', $student->id),
                 'current_fee'=>$cum_fee_items->where('year_id', $year)->first()->amount??0,
                 'debt'=>($past_fee->sum('amount') + $past_extra_fees) - (($past_payments->sum('amount') - $past_payments->sum('debt') + $past_scholarship)),
-                'paid'=>$current_payments, 'scholarship'=>$current_scholarship, 'total'=>$cum_fee_items->sum('amount')+$current_extra_fees,
+                'paid'=>$current_payments, 'scholarship'=>$current_scholarship, 'total'=>$cum_fee_items->sum('amount')+$cum_extra_fees,
                 'current_paid'=>$_payments->where('payment_year_id', $year)->sum('amount') + $_payments->where('payment_year_id', $year)->sum('debt'),
                 'extra_fee'=>$current_extra_fees, 
-                'owing'=>$cum_fee_items->sum('amount') + $current_extra_fees - ($current_payments + $cum_scholarship),
+                'cum_extra_fee'=>$cum_extra_fees, 
+                'owing'=>$cum_fee_items->sum('amount') + $cum_extra_fees - ($current_payments + $cum_scholarship),
                 'class'=>$class->name()
             ];
         }

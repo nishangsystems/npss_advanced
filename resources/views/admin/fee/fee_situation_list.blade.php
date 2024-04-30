@@ -84,17 +84,22 @@
                         <div id="letter-head">
                             <img src="{{\App\Helpers\Helpers::instance()->getHeader()}}" alt="" class="w-100 img">
                         </div>
-                        <div class="text-center h4 fw-bolder py-3 mt-3 text-capitalize"><b>{{$title}}</b></div>
-                        <tr class="text-capitalize bg-light">
-                            <th>#</th>
-                            <th>{{__('text.word_name')}}</th>
-                            <th>{{__('text.word_fee')}}</th>
-                            <th>{{__('text.extra_fee')}}</th>
-                            <th>{{__('text.word_debt')}}</th>
-                            <th>{{__('text.word_paid')}}</th>
-                            <th>{{__('text.total_paid')}}</th>
-                            <th>{{__('text.word_scholarship')}}</th>
-                            <th>{{__('text.amount_owing')}}</th>
+                        <tr class="border-bottom border-top">
+                            <th colspan="10">
+                                <div class="text-center h4 fw-bolder py-3 mt-3 text-capitalize"><b>{{$title}}</b></div>
+                            </th>
+                        </tr>
+                        <tr class="text-capitalize border-bottom bg-dark text-white border-top">
+                            <th class="border-left border-right">#</th>
+                            <th class="border-left border-right">{{__('text.word_name')}}</th>
+                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.current_fee')}}</span></th>
+                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.extra_fee')}}</span></th>
+                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.cum_extra_fee')}}</span></th>
+                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.past_debt')}}</span></th>
+                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.current_amount_paid')}}</span></th>
+                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.cum_amount_paid')}}</span></th>
+                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.word_scholarship')}}</span></th>
+                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.cum_amount_owing')}}</span></th>
                             <!-- <th></th> -->
                         </tr>
                     </thead>
@@ -106,6 +111,7 @@
                                 <td class="border-left border-right">{{$student['name'] ?? ''}}</td>
                                 <td class="border-left border-right">{{$student['current_fee'] ?? ''}}</td>
                                 <td class="border-left border-right">{{$student['extra_fee'] ?? ''}}</td>
+                                <td class="border-left border-right">{{$student['cum_extra_fee'] ?? ''}}</td>
                                 <td class="border-left border-right">{{$student['debt'] ?? ''}}</td>
                                 <td class="border-left border-right">{{number_format($student['current_paid'] ?? 0)}}</td>
                                 <td class="border-left border-right">{{number_format($student['paid'] ?? 0)}}</td>

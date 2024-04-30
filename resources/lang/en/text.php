@@ -946,5 +946,12 @@ return [
     'degree_conferred'=>'degree conferred',
     'guidian_tel'=>'guidian tel', 
     'select_semester'=>'select term',
+    'current_fee'=>'current fee',
+    'cum_extra_fee'=>'cum.extra fee',
+    'past_debt'=>'past debt',
+    'current_paid'=>'current paid',
+    'current_amount_paid'=>'current amount paid',
+    'cum_amount_paid'=>'cum.amount paid',
+    'cum_amount_owing'=>'cum.amount owing',
     ''
 ];
