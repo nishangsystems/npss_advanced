@@ -94,12 +94,12 @@
                             <th class="border-left border-right">{{__('text.word_name')}}</th>
                             <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.current_fee')}}</span></th>
                             <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.extra_fee')}}</span></th>
-                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.cum_extra_fee')}}</span></th>
-                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.past_debt')}}</span></th>
+                            {{-- <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.cum_extra_fee')}}</span></th> --}}
+                            {{-- <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.past_debt')}}</span></th> --}}
                             <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.current_amount_paid')}}</span></th>
-                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.cum_amount_paid')}}</span></th>
+                            {{-- <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.cum_amount_paid')}}</span></th> --}}
                             <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.word_scholarship')}}</span></th>
-                            <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.cum_amount_owing')}}</span></th>
+                            {{-- <th class="border-left border-right"><span style="writing-mode: vertical-rl !important; text-orientation: mixed important;">{{__('text.cum_amount_owing')}}</span></th> --}}
                             <!-- <th></th> -->
                         </tr>
                     </thead>
@@ -111,12 +111,12 @@
                                 <td class="border-left border-right">{{$student['name'] ?? ''}}</td>
                                 <td class="border-left border-right">{{$student['current_fee'] ?? ''}}</td>
                                 <td class="border-left border-right">{{$student['extra_fee'] ?? ''}}</td>
-                                <td class="border-left border-right">{{$student['cum_extra_fee'] ?? ''}}</td>
-                                <td class="border-left border-right">{{$student['debt'] ?? ''}}</td>
+                                {{-- <td class="border-left border-right">{{$student['cum_extra_fee'] ?? ''}}</td> --}}
+                                {{-- <td class="border-left border-right">{{$student['debt'] ?? ''}}</td> --}}
                                 <td class="border-left border-right">{{number_format($student['current_paid'] ?? 0)}}</td>
-                                <td class="border-left border-right">{{number_format($student['paid'] ?? 0)}}</td>
+                                {{-- <td class="border-left border-right">{{number_format($student['paid'] ?? 0)}}</td> --}}
                                 <td class="border-left border-right">{{number_format($student['scholarship'] ?? 0)}}</td>
-                                <td class="border-left border-right">{{number_format($student['owing'] ?? 0)}}</td>
+                                {{-- <td class="border-left border-right">{{number_format($student['owing'] ?? 0)}}</td> --}}
                             </tr>
                         @endforeach
                     </tbody>
