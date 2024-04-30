@@ -245,7 +245,8 @@ class StudentController extends Controller
                 StudentClass::create([
                     'student_id' => $student->id,
                     'class_id' => $request->program_id,
-                    'year_id' => $request->admission_batch_id
+                    'year_id' => $request->admission_batch_id,
+                    'current'=>1
                 ]):null;
     
                 DB::commit();
@@ -491,7 +492,8 @@ class StudentController extends Controller
                         $class = StudentClass::create([
                             'student_id' => $student->id,
                             'class_id' => $request->program_id,
-                            'year_id' => $request->batch
+                            'year_id' => $request->batch,
+                            'current'=>1
                         ]);
                         
                         // echo ($importData[0]." Inserted Successfully<br>");
