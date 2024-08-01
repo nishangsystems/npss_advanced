@@ -149,7 +149,7 @@
 @endsection
 
 @section('script')
-<script>
+{{-- <script>
     function loadPrograms(element){
         let val = element.value;
         url = "{{route('campus.programs', ['__V__'])}}";
@@ -167,5 +167,5 @@
             }
         })
     }
-</script>
+</script> --}}
 @endsection
