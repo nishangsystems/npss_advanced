@@ -268,14 +268,6 @@
                         </a>
                         <b class="arrow"></b>
                     </li>
-                    <li>
-                        <a href="{{route('admin.dep_courses.index')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.departmental_courses')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-
 
                 </ul>
             </li>
@@ -367,113 +359,25 @@
                 <b class="arrow"></b>
 
                 <ul class="submenu">
-                    
-                    {{-- @if(auth()->user()->campus_id == null)
-                    <li>
-                        <a href="{{route('admin.program_settings')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                           {{__('text.program_settings')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-                    @endif --}}
 
-                    {{-- @if (auth()->user()->can('manage_charges'))
+                    @if(auth()->user()->campus_id == null)
                         <li>
-                            <a href="{{route('admin.charges.set')}}" class="text-capitalize">
+                            <a href="{{route('admin.sections')}}" class="text-capitalize">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                {{__('text.set_charges')}}
+                                {{__('text.manage_sections')}}
                             </a>
+
                             <b class="arrow"></b>
                         </li>
-                    @endif --}}
-                    {{-- <li>
-                        <a href="{{route('admin.users.wages.index')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                           {{__('text.hourly_wages')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li> --}}
-
-                    {{-- <li>
-                        <a href="{{route('admin.custom_resit.create')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                           {{__('text.manage_custom_resits')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li> --}}
-
-                    @if(auth()->user()->campus_id == null)
-                        {{-- <li>
-                            <a href="{{route('admin.result.settings')}}" class="text-capitalize">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.results_date_line')}}
-                            </a>
-                            <b class="arrow"></b>
-                        </li> --}}
-                        {{-- <li>
-                            <a href="{{route('admin.course.date_line')}}" class="text-capitalize">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.course_registration_date_line')}}
-                            </a>
-                            <b class="arrow"></b>
-                        </li> --}}
                         
-                        {{-- <li>
-                            <a href="{{route('admin.result.publishing')}}" class="text-capitalize">
+                        <li>
+                            <a href="{{route('admin.programs.index')}}" class="text-capitalize">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                {{__('text.publish_results')}}
+                                {{__('text.manage_programs')}}
                             </a>
+
                             <b class="arrow"></b>
-                        </li> --}}
-
-                        {{-- @if (auth()->user()->can('access_hidden_features'))
-                            <li>
-                                <a href="{{route('admin.set_background_image')}}" class="text-capitalize">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                {{__('text.set_background_image')}}
-                                </a>
-                                <b class="arrow"></b>
-                            </li> 
-                        @endif --}}
-                    @endif
-
-                    @if(auth()->user()->campus_id == null)
-                    <li>
-                        <a href="{{route('admin.sections')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.manage_sections')}}
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-                    
-                    <li>
-                        <a href="{{route('admin.programs.index')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.manage_programs')}}
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-
-                    
-                    {{-- <li>
-                        <a href="{{route('admin.result_release.index')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                           {{__('text.add_result_release')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li> --}}
-
-                    
-                    {{-- <li>
-                        <a href="{{route('admin.schools.index')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                           {{__('text.manage_school')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li> --}}
+                        </li>
                     @endif
 
                     <li>
@@ -627,28 +531,6 @@
                 </li>
             @endif
 
-            {{-- @if (\Auth::user()->hasPermissionTo('manage_resits'))
-            <li>
-                <a href="#" class="dropdown-toggle">
-                <i style="color: {{$bg1}}" class="menu-icon fa fa-recycle"></i>
-                    <span class="menu-text text-capitalize">
-						{{__('text.manage_resits')}}
-						</span>
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
-
-
-                <ul class="submenu">
-                    <li>
-                        <a href="{{route('admin.resits.index')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.word_resits')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-                </ul>
-            </li>
-            @endif --}}
 
             @if (\Auth::user()->hasPermissionTo('manage_fee'))
             <li>
@@ -679,15 +561,6 @@
                         <b class="arrow"></b>
                     </li>
                     
-                    <li>
-                        <a href="{{route('admin.fee.registration.collect')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.collect_registration_fee')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-                    
-
                     <li>
                         <a href="{{route('admin.print_fee')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
@@ -745,14 +618,6 @@
                         <b class="arrow"></b>
                     </li>
                     
-                    <li>
-                        <a href="{{route('admin.reg.fee.situation')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.registration_fee_situation')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-
                     <li>
                         <a href="{{route('admin.clearance.fee')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
@@ -851,30 +716,6 @@
             </li>
             @endif --}}
 
-            {{-- @if (\Auth::user()->hasPermissionTo('manage_result_coding'))
-            <li>
-                <a href="#" class="dropdown-toggle text-capitalize">
-                    <i  style="color: {{$bg1}}"class="menu-icon  fa fa-folder-open"></i>
-                    <span class="menu-text">
-						{{__('text.import_results')}}
-						</span>
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
-
-
-                <ul class="submenu">
-
-                    <li>
-                        <a href="{{route('admin.result.coded.index')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.word_index')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-                    
-                </ul>
-            </li>
-            @endif --}}
 
             @if (\Auth::user()->hasPermissionTo('manage_scholarship'))
             <li>

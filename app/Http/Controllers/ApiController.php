@@ -312,11 +312,9 @@ class ApiController extends Controller
                 ->select(['program_levels.*', '_schools.name as school', 'departments.name as department', 'school_units.name as program', 'school_units.id as program_id'])
                 ->get()->map(function($rec)use($fees, $banks){
                     $fee = $fees->where('id', $rec->id)->where('payment_type', 'TUTION')->first(); 
-                    $reg = $fees->where('id', $rec->id)->where('payment_type', 'REGISTRATION')->first(); 
                     $backs = $banks->where('program_id', $rec->program_id)->first(); 
                     
                     $rec->class_name = $rec->name();
-                    $rec->registration = $reg->amount??null;
                     $rec->amount = $fee->amount??null;
                     $rec->first_instalment = $fee->first_instalment??null;
                     $rec->international_amount = $fee->international_amount??null;
@@ -374,11 +372,9 @@ class ApiController extends Controller
                 ->select(['program_levels.*', '_schools.name as school', 'departments.name as department', 'school_units.name as program', 'school_units.id as program_id'])
                 ->get()->map(function($rec)use($fees, $banks){
                     $fee = $fees->where('id', $rec->id)->where('payment_type', 'TUTION')->first(); 
-                    $reg = $fees->where('id', $rec->id)->where('payment_type', 'REGISTRATION')->first(); 
                     $backs = $banks->where('program_id', $rec->program_id)->first(); 
                     
                     $rec->class_name = $rec->name();
-                    $rec->registration = $reg->amount??null;
                     $rec->amount = $fee->amount??null;
                     $rec->first_instalment = $fee->first_instalment??null;
                     $rec->international_amount = $fee->international_amount??null;

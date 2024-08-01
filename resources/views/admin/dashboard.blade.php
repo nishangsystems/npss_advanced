@@ -193,21 +193,7 @@
                     </div>
                 </div>
 
-                <div class="infobox border border-dark mx-2 my-1 rounded infobox-green">
-
-                    <div class="infobox-icon">
-                        <i class="ace-icon fa fa-money fa-spin"></i>
-                    </div>
-
-                    <div class="infobox-data">
-                        <span class="infobox-text">{{ number_format($recieved_reg_fee??0) }}</span>
-
-                        <div class="infobox-content">
-                            {{ __('text.registration_fee_paid') }}
-                        </div>
-                    </div>
-                    <div class="stat stat-success mt-3">{{ $expected_reg_fee == 0 ? 0 : number_format(100*$recieved_reg_fee/$expected_reg_fee, 2) }}%</div>
-                </div>
+                
             </div>
         @endif
 

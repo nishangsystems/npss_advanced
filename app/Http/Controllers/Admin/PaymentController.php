@@ -61,23 +61,6 @@ class PaymentController extends Controller
     }
 
 
-    public function reg_create(Request $request, $student_id)
-    {
-        // return 1000000;
-        $c_year = \App\Helpers\Helpers::instance()->getCurrentAccademicYear();
-        $student = Students::find($student_id);
-        $data['student'] = $student;
-        $data['total_fee'] = (int)$student->registration_total();
-        $data['balance'] =  $student->registration_bal($student_id);
-        $data['title'] = __('text.collect_registration_fee_for', ['item'=>$student->name]);
-        $data['item'] = $student->class(\App\Helpers\Helpers::instance()->getYear())->payment_items()->where('name', 'REGISTRATION')->where(['year_id'=>$c_year])->first();
-        
-        if ($data['total_fee'] <= 0) {
-
-            return redirect(route('admin.fee.registration.collect'))->with('error', __('text.registration_fee_not_set'));
-        }
-        return view('admin.fee.payments.reg_create')->with($data);
-    }
 
     public function edit(Request $request, $student_id, $id)
     {
@@ -210,70 +193,6 @@ class PaymentController extends Controller
 
     }
 
-    public function reg_store(Request $request, $student_id)
-    {
-
-        try {
-            //code...
-            DB::beginTransaction();
-            // return $request->all();
-            $student = Students::find($student_id);
-            $total_fee = $student->registration_total($student_id);
-            $balance =  $student->registration_bal($student_id);
-            $_data = [];
-            
-            $__amount = $request->amount;
-            // $debt = $student->debt(Helpers::instance()->getCurrentAccademicYear());
-            // return $balance;
-            
-            $this->validate($request, [
-                'item' =>  'required',
-                'amount' => 'required',
-                'date' => 'required|date',
-            ]);
-            foreach (Batch::orderBy('name')->pluck('id')->toArray() as $key => $year_id) {
-                # code...
-                if($year_id > Helpers::instance()->getCurrentAccademicYear()) break;
-                $class = $student->_class($year_id);
-                if($class != null){
-                    $cpid = $class->campus_programs->where('campus_id', $student->campus_id)->first();
-                    if($cpid != null){
-                        $payment_id = $year_id == Helpers::instance()->getCurrentAccademicYear() ? $request->item : PaymentItem::where(['campus_program_id'=>$cpid->id, 'year_id'=>$year_id])->first()->id??null;
-                        $total_balance = $balance;
-                        if($total_balance > 0){
-                            
-                            $data = [
-                                "payment_id" => $payment_id,
-                                "student_id" => $student->id,
-                                "unit_id" => $class->id,
-                                "batch_id" => $year_id,
-                                "amount" => $__amount,
-                                // "date" => $request->date,
-                                'reference_number' => $request->reference_number.time().'_'.random_int(1000000, 99999999),
-                                'user_id' => auth()->user()->id,
-                                'payment_year_id'=>Helpers::instance()->getCurrentAccademicYear(),
-                                'debt' => 0,
-                                'created_at'=>date(DATE_ATOM, time()),
-                                'updated_at'=>date(DATE_ATOM, time())
-                            ];
-                            if ($data['reference_number'] == null || (Payments::where(['reference_number' => $data['reference_number']])->count() == 0)) {
-                                $_data[] = $data;
-                            }else{return back()->with('error', __('text.reference_already_exist'));}
-                        };
-                    }
-                }
-            }
-            // dd($_data);
-            Payments::insert($_data);
-            DB::commit();
-            return back()->with('success', __('text.word_done'));
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return back()->with('error', $th->getMessage());
-        }
-
-    }
 
     public function update(Request $request, $student_id, $id)
     {

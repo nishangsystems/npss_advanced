@@ -62,29 +62,7 @@ class HomeController  extends Controller
 
         $other_incomes = Income::where('year_id', $this->current_accademic_year)->join('pay_incomes', 'pay_incomes.income_id', '=', 'incomes.id')->select('incomes.id', 'incomes.name', DB::raw('sum(pay_incomes.amount) as amount'))->groupBy('id')->get();
 
-        $expected_reg_fee = Students::where('active', 1)
-            ->join('student_classes', 'student_classes.student_id', '=', 'students.id')
-            ->where('student_classes.year_id', $year)
-            ->join('program_levels', 'program_levels.id', '=', 'student_classes.class_id')
-            ->join('campus_programs',  function($join){
-                $join->on('campus_programs.program_level_id', '=', 'program_levels.id')
-                    ->on('campus_programs.campus_id', 'students.campus_id');
-            })
-            ->join('payment_items', 'payment_items.campus_program_id', '=', 'campus_programs.id')
-            ->where('payment_items.year_id', $year)
-            ->where('payment_items.name', 'REGISTRATION')
-            ->select(['payment_items.id', DB::raw('SUM(payment_items.amount) as amount'), DB::raw('COUNT(students.id) as students')])
-            ->distinct()
-            ->groupBy('payment_items.id')
-            ->distinct()->get();
-
-            // dd($expected_reg_fee);
-
-        $recieved_reg_fee = Payments::whereIn('payment_id', $expected_reg_fee->pluck('id')->toArray())->sum('amount');
-        // dd($other_incomes);
         $levels = Level::all();
-        $data['expected_reg_fee'] = $expected_reg_fee->sum('amount');
-        $data['recieved_reg_fee'] = $recieved_reg_fee;
         $data['other_incomes'] = $other_incomes;
         $data['expected_fee'] = $expected_fees->sum('amount');
         $data['paid_fee'] = $payments->sum('amount') - $payments->sum('debt');

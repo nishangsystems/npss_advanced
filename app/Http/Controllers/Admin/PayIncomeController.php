@@ -24,8 +24,9 @@ class PayIncomeController extends Controller
     private $select = [
         'students.id',
         'students.campus_id',
-        'student_classes.class_id',
+        'pay_incomes.class_id',
         'pay_incomes.id as pay_income_id',
+        'pay_incomes.amount as paid_amount',
         'students.name as student_name',
         'incomes.name as income_name',
         'incomes.amount',
@@ -40,7 +41,7 @@ class PayIncomeController extends Controller
     public function index()
     {
         $batch_id = Batch::find(\App\Helpers\Helpers::instance()->getCurrentAccademicYear())->id;
-        $data['pay_incomes'] = DB::table('pay_incomes')
+        $data['pay_incomes'] = \App\Models\PayIncome::where('pay_incomes.batch_id', $batch_id)
             ->join('incomes', 'incomes.id', '=', 'pay_incomes.income_id')
             ->join('students', 'students.id', '=', 'pay_incomes.student_id')
             ->join('student_classes', 'student_classes.student_id', '=', 'students.id')
@@ -49,13 +50,13 @@ class PayIncomeController extends Controller
                 auth()->user()->campus_id != null ? $query->where('students.campus_id', '=', auth()->user()->campus_id) : null;
             })
             // ->join('school_units', 'school_units.id', '=', 'pay_incomes.class_id')
-            ->where('pay_incomes.batch_id', $batch_id)->orderBy('students.name')
+            ->orderBy('students.name')
             ->select($this->select)->distinct()
             ->get();
         $data['title'] = __('text.pay_income');
         $data['years'] = Batch::all();
         $data['school_units'] = SchoolUnits::where('parent_id', '=', 0)->get();
-        //  dd($data['school_units']);
+        //  dd($data);
         return view('admin.payIncome.index')->with($data);
     }
 
@@ -112,9 +113,17 @@ class PayIncomeController extends Controller
             ->join('incomes', 'incomes.id', '=', 'pay_incomes.income_id')
             ->join('students', 'students.id', '=', 'pay_incomes.student_id')
             ->where('students.id', '=', $student_id)
-            ->join('school_units', 'school_units.id', '=', 'pay_incomes.class_id')
+            // ->join('school_units', 'school_units.id', '=', 'pay_incomes.class_id')
             ->where('pay_incomes.batch_id', $batch_id)
-            ->select($reselect)
+            ->select([
+                'students.id',
+                'pay_incomes.id as pay_income_id',
+                'pay_incomes.created_at as created_at',
+                'students.name as student_name',
+                'incomes.name as income_name',
+                'incomes.amount as total',
+                DB::raw("SUM( CASE WHEN pay_incomes.amount IS NULL THEN incomes.amount ELSE pay_incomes.amount END) as amount")
+            ])
             ->first();
    
         // dd($data);
@@ -312,7 +321,10 @@ class PayIncomeController extends Controller
     {
         $student = DB::table('pay_incomes')
             ->join('students', 'students.id', '=', 'pay_incomes.student_id')
-            ->join('incomes', 'incomes.id', '=', 'pay_incomes.income_id')
+            ->join('incomes', function($qry){
+                $qry->on('incomes.id', '=', 'pay_incomes.income_id')
+                    ->on('incomes.amount', '=', 'pay_incomes.amount');
+            })
             ->join('school_units', 'school_units.id', '=', 'pay_incomes.class_id')
             ->where('pay_incomes.income_id', $id)
             ->where('pay_incomes.student_id', $student_id)

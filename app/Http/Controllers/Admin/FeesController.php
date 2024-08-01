@@ -47,11 +47,6 @@ class FeesController extends Controller
         return view('admin.fee.collect', compact('title'));
     }
 
-    public function collect_registration(Request  $request)
-    {
-        $title = __('text.collect_registration_fee');
-        return view('admin.fee.reg_collect', compact('title'));
-    }
 
     public function printFee(Request  $request)
     {
@@ -98,14 +93,7 @@ class FeesController extends Controller
         return view('admin.fee.fee_situation', $data);
     }
 
-    public function registration_fee_situation(Request $request)
-    {
-        # code...
 
-        $class = ProgramLevel::find($request->class);
-        $data['title'] = __('text.registration_fee_situation');
-        return view('admin.fee.rgfee_situation', $data);
-    }
 
     public function fee_situation_list(Request $request)
     {
@@ -117,15 +105,6 @@ class FeesController extends Controller
         return view('admin.fee.fee_situation_list', $data);
     }
 
-    public function registration_fee_situation_list (Request $request)
-    {
-        # code...
-        $class = ProgramLevel::find($request->class);
-        $data['title'] = __('text.registration_fee_situation').' '.__('text.word_for').' '.$class->program->name.' : '.__('text.word_level').' '.$class->level->level.' - '.Batch::find($request->year)->name;
-        $data['data'] = HomeController::rgfee_situation($request);
-        // return $data;
-        return view('admin.fee.rgfee_situation_list', $data);
-    }
 
     public function fee_list(Request  $request)
     {
@@ -339,16 +318,12 @@ class FeesController extends Controller
                 ->join('payment_items', 'payment_items.campus_program_id', '=', 'campus_programs.id')
                 ->where('payment_items.year_id', $year)->select(['payment_items.*', 'campus_programs.program_level_id'])->get();
             
-            //  dd($fee_items->where('name', 'REGISTRATION')); 
             $classes = $data['campus']->programs->unique()->map(function($rec)use($fee_items){
                 $fee = $fee_items->where('program_level_id', $rec->id)->where('name', 'TUTION')->first();
-                $reg = $fee_items->where('program_level_id', $rec->id)->where('name', 'REGISTRATION')->first();
                 if($fee != null){
                     $rec->amount = $fee->amount??null;
-                    $rec->reg = $reg->amount??null;
                     $rec->first_instalment = $fee->first_instalment??null;
                     $rec->second_instalment = $fee->second_instalment??null;
-                    $rec->international_amount = $fee->international_amount??null;
                 }
                 return $rec;
             });

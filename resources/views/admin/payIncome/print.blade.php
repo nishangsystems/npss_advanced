@@ -46,7 +46,7 @@
                                     <div style=" float:left; width:900px; margin-top:0px;TEXT-ALIGN:CENTER; font-family:arial; height:300px;font-size:13px; ">
                                         <div style=" float:left; width:200px; height:25px;font-size:17px; text-transform:capitalize"> {{__('text.word_name')}} :</div>
                                         <div style=" float:left; width:700px;border-bottom:1px solid #000;font-weight:normal; height:25px;font-size:17px;">
-                                            <div style=" text-align:center; width:300px;margin-top:3px;">
+                                            <div style=" text-align:center; margin-top:3px;">
                                                 {{$reciept->student_name}}
                                             </div>
                                             <div style=" float:left; width:200px;  height:25px;margin-top:15px;">
@@ -55,7 +55,7 @@
                                         </div>
                                         <div style=" float:left; width:200px; height:25px;font-size:17px; text-transform:capitalize"> {{__('text.word_purpose')}} :</div>
                                         <div style=" float:left; width:700px;border-bottom:1px solid #000;font-weight:normal; height:25px;font-size:17px;">
-                                            <div style=" float:left; width:500px;margin-top:3px;">
+                                            <div style=" float:left; margin-top:3px;">
                                                 {{$reciept->income_name}}
                                             </div>
                                             <div style=" float:left; width:200px;  height:25px;margin-top:15px;"></div>
@@ -90,7 +90,7 @@
                                             <div style=" float:left; width:200px;  height:25px;margin-top:7px;"></div>
                                             <div style=" float:left; width:900px;margin-top:3px;TEXT-ALIGN:CENTER; font-family:arial; height:30px; BORDER-BOTTOM:none; font-size:13px; ">
                                                 <div style=" float:left; width:200px; height:25px;font-size:17px; text-transform:capitalize"> <i>{{__('text.balance_due')}}</i></div>
-                                                <div style=" float:left; width:700px; height:25px; border-bottom:none; font-size:16px; font-family:Chaparral Pro Light; border-bottom:1PX dashed#000"><i>----</i></div>
+                                                <div style=" float:left; width:700px; height:25px; border-bottom:none; font-size:16px; font-family:Chaparral Pro Light; border-bottom:1PX dashed#000"><i>{{ number_format($reciept->total-$reciept->amount) }}</i></div>
                                             </div>
                                             
                                             <div style=" clear:both; height:30px"></div>
@@ -118,7 +118,7 @@
                                     <div style=" float:left; width:900px; margin-top:0px;TEXT-ALIGN:CENTER; font-family:arial; height:300px;font-size:13px; ">
                                         <div style=" float:left; width:200px; height:25px;font-size:17px; text-transform:capitalize"> {{__('text.word_name')}} :</div>
                                         <div style=" float:left; width:700px;border-bottom:1px solid #000;font-weight:normal; height:25px;font-size:17px;">
-                                            <div style=" text-align:center; width:300px;margin-top:3px;">
+                                            <div style=" text-align:center; margin-top:3px;">
                                                 {{$reciept->student_name}}
                                             </div>
                                             <div style=" float:left; width:200px;  height:25px;margin-top:15px;">
@@ -127,7 +127,7 @@
                                         </div>
                                         <div style=" float:left; width:200px; height:25px;font-size:17px; text-transform:capitalize"> {{__('text.word_purpose')}} :</div>
                                         <div style=" float:left; width:700px;border-bottom:1px solid #000;font-weight:normal; height:25px;font-size:17px;">
-                                            <div style=" float:left; width:500px;margin-top:3px;">
+                                            <div style=" float:left; margin-top:3px;">
                                                 {{$reciept->income_name }}
                                             </div>
                                             <div style=" float:left; width:200px;  height:25px;margin-top:15px;"></div>
@@ -162,7 +162,7 @@
                                             <div style=" float:left; width:200px;  height:25px;margin-top:7px;"></div>
                                             <div style=" float:left; width:900px;margin-top:3px;TEXT-ALIGN:CENTER; font-family:arial; height:30px; BORDER-BOTTOM:none; font-size:13px; ">
                                                 <div style=" float:left; width:200px; height:25px;font-size:17px; text-transform:capitalize"> <i>{{__('text.balance_due')}}</i></div>
-                                                <div style=" float:left; width:700px; height:25px; border-bottom:none; font-size:16px; font-family:Chaparral Pro Light; border-bottom:1PX dashed#000"><i>----</i></div>
+                                                <div style=" float:left; width:700px; height:25px; border-bottom:none; font-size:16px; font-family:Chaparral Pro Light; border-bottom:1PX dashed#000"><i>{{ number_format($reciept->total-$reciept->amount) }}</i></div>
                                             </div>
                                             
                                             <div style=" clear:both; height:30px"></div>

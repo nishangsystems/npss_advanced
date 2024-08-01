@@ -491,44 +491,6 @@ class HomeController extends Controller
 
     }
 
-    
-    public static function rgfee_situation(Request $request)
-    {
-        # code...
-        $year = request('year', Helpers::instance()->getCurrentAccademicYear());
-        $class = ProgramLevel::find(\request('class'));
-
-        // $st_classes = $class->student_classes()->join('students', 'students.id', '=', 'student_classes.student_id')->groupBy(['student_classes.year_id', 'students.campus_id'])->select(['students.campus_id', 'student_classes.id', 'student_classes.class_id', 'student_classes.id', 'student_classes.year_id'])->distinct()->get();
-        // dd($st_classes);
-
-        $data = [];
-
-        # code...
-        foreach ($class->_students($year)->get() as $key => $student) {
-            $fee_items = $class->single_payment_item($student->campus_id, $year)->where('name', 'REGISTRATION')->get();
-            
-            if ($fee_items->count() > 0) {
-    
-                $_payments = Payments::where('student_id', $student->id)->whereIn('payment_id', $fee_items->pluck('id')->toArray())->distinct()->get();
-                $payment = $_payments->sum('amount');
-    
-                
-                // dd($fee_items);
-                $data[] = [
-                    'id'=>$student->id, 'name'=>$student->name, 'matric'=>$student->matric,
-                    'link'=>route('admin.fee.student.payments.index', $student->id),
-                    'paid'=>$payment,  'total'=>$fee_items->sum('amount'),
-                    'class'=>$class->name()
-                ];
-            }
-    
-            // dd($data);
-        }
-        return ['students'=>collect($data)->sortBy('name')];
-
-    }
-
-    
 
     public static function getColor($label)
     {

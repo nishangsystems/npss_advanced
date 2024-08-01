@@ -175,8 +175,6 @@ class CampusesController extends Controller
         # code...
         $this->validate($request, [
             'fees'=>'required|int',
-            'r_fees'=>'nullable|int',
-            'international_amount'=>'nullable|int',
             'first_instalment'=>'nullable|int',
             'second_instalment'=>'nullable|int'
         ]);
@@ -196,21 +194,8 @@ class CampusesController extends Controller
             $tution_inst->amount = $request->fees;
             $tution_inst->first_instalment = $request->first_instalment;
             $tution_inst->second_instalment = $request->second_instalment;
-            $tution_inst->international_amount = $request->international_amount;
             $tution_inst->save();
-    
-            // save registration fee
-            if ($request->r_fees != null) {
-                # code...
-                $reg_inst = \App\Models\PaymentItem::where('campus_program_id', $cp_id)->where('name', 'REGISTRATION')->where(['year_id' => Helpers::instance()->getCurrentAccademicYear()])->first();
-                $reg_inst = $reg_inst == null ? new \App\Models\PaymentItem() : $reg_inst;
-                $reg_inst->campus_program_id = $cp_id;
-                $reg_inst->name = 'REGISTRATION';
-                $reg_inst->year_id = \App\Helpers\Helpers::instance()->getCurrentAccademicYear();
-                $reg_inst->slug = Hash::make('REGISTRATION');
-                $reg_inst->amount = $request->r_fees;
-                $reg_inst->save();
-            }
+
             return redirect(route('admin.fee_settings', $id))->with('success', __('text.word_done'));
         } catch (\Throwable $th) {
             //throw $th;

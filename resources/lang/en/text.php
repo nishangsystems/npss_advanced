@@ -953,5 +953,6 @@ return [
     'current_amount_paid'=>'current amount paid',
     'cum_amount_paid'=>'cum.amount paid',
     'cum_amount_owing'=>'cum.amount owing',
+    'departmental_courses'=>'departmental courses',
     ''
 ];
