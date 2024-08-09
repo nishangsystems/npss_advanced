@@ -92,7 +92,7 @@ class HomeController  extends Controller
                     });
                 });
 
-            $students = StudentClass::where('year_id', $year)->join('students', 'students.id', '=', 'student_classes.student_id')
+            $students = StudentClass::where('year_id', $year)->join('students', 'students.id', '=', 'student_classes.student_id')->where('active', 1)
                 ->where(function($query)use($campus){
                     $campus != null ? $query->where('campus_id', $campus) : null;
                 })->distinct()->get(['students.*']);
