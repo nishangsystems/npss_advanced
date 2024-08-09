@@ -45,10 +45,8 @@
                             <td>{{$stud->campus->name}}</td>
                             <td>{{$stud->_class()->name()}}</td>
                             <td class="d-flex justify-content-end  align-items-start text-capitalize">
-                                <a class="btn btn-sm btn-primary m-1" href="{{$stud->show_link}}"><i class="fa fa-info-circle"> {{__('text.word_view')}}</i></a> |
-                                {{-- <a class="btn btn-sm btn-success m-1" href="{{$stud->edit_link}}"><i class="fa fa-edit"> {{__('text.word_edit')}}</i></a>| --}}
-                                <form action="{{$stud->password_reset}}" method="post" id="id_{{$stud->id}}" class="hidden">@csrf</form>
-                                <a class="btn btn-sm btn-warning m-1" onclick="confirm('Your are about to change student status for {{$stud->name}}?') ? (window.location='{{ $stud->activate_link }}') : null">
+                                <a class="btn btn-sm btn-primary m-1" href="{{route('admin.student.show', $stud->id)}}"><i class="fa fa-info-circle"> {{__('text.word_view')}}</i></a> |
+                                <a class="btn btn-sm btn-warning m-1" onclick="confirm('Your are about to change student status for {{$stud->name}}?') ? (window.location='{{ route('admin.student.change_status', $stud->id) }}') : null">
                                     <i class="fa fa-cog">
                                             {{__('text.word_activate')}}
                                     </i>
