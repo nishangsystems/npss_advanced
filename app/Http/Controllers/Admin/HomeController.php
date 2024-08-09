@@ -82,7 +82,7 @@ class HomeController  extends Controller
             $programs = SchoolUnits::where('school_units.unit_id', 4);
             $program_students = SchoolUnits::where('school_units.unit_id', 4)->join('program_levels', 'program_levels.program_id', '=', 'school_units.id')
                 ->join('student_classes', 'student_classes.class_id', '=', 'program_levels.id')->where('student_classes.year_id', $year)
-                ->join('students', 'students.id', '=', 'student_classes.student_id')->where('active', 1)
+                ->join('students', 'students.id', '=', 'student_classes.student_id')->where('students.active', 1)
                 ->where(function($query)use($campus_id){
                     $campus_id != null ? $query->where('students.campus_id', $campus_id) : null;
                 })->distinct()->get(['school_units.id', 'school_units.name as program_name', 'school_units.id as program', 'students.id as student_id', 'students.gender', 'program_levels.level_id'])->groupBy('program')->each(function($rec)use($levels){
@@ -92,7 +92,7 @@ class HomeController  extends Controller
                     });
                 });
 
-            $students = StudentClass::where('year_id', $year)->join('students', 'students.id', '=', 'student_classes.student_id')->where('active', 1)
+            $students = StudentClass::where('year_id', $year)->join('students', 'students.id', '=', 'student_classes.student_id')->where('students.active', 1)
                 ->where(function($query)use($campus){
                     $campus != null ? $query->where('campus_id', $campus) : null;
                 })->distinct()->get(['students.*']);
