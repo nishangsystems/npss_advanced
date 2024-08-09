@@ -128,6 +128,7 @@
                 <small style="color: white;">
                     <i class="fa fa-leaf"></i>
                     {{config('app.name')}}
+                    <sub>V 1.1</sub>
                 </small>
             </a>
         </div>
