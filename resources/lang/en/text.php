@@ -957,4 +957,4 @@ return [
     'cash_balance'=>'cash balance',
     'word_expenses'=>'expenses',
     ''
-];
+]; 
