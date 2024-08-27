@@ -19,6 +19,7 @@ use App\Models\PaymentItem;
 use App\Models\Payments;
 use App\Models\Period;
 use App\Models\PlatformCharge;
+use App\Models\ProgramLevel;
 use App\Models\Resit;
 use App\Models\SchoolContact;
 use App\Models\SchoolUnits;
@@ -113,6 +114,63 @@ class HomeController  extends Controller
         $data['programs'] = $program_students;
         $data['recovered_debt'] = Payments::where('batch_id', '!=', $year)->where('payment_year_id', $year)->sum('amount');
         $data['_programs'] = $programs;
+
+
+        // Fee summary template
+        $fee_expected = Students::where('students.active' ,1)
+            ->join('student_classes', ['student_classes.student_id'=>'students.id'])
+            ->where(['student_classes.year_id'=>$year])
+            ->join('program_levels', ['program_levels.id'=>'student_classes.class_id'])
+            ->join('campus_programs', function($query){
+                $query->on(['campus_programs.program_level_id'=>'program_levels.id'])
+                    ->on(['campus_programs.campus_id'=>'students.campus_id']);
+            })->join('payment_items', function($query){
+                $query->on(['payment_items.campus_program_id'=>'campus_programs.id'])
+                    ->on(['payment_items.year_id'=>'student_classes.year_id']);
+            })->distinct()->select(['students.id', DB::raw("SUM(payment_items.amount) as amount")])->groupBy('students.id')->get()->sum('amount');
+
+        $fee_paid = Students::where('students.active' ,1)
+            ->join('student_classes', ['student_classes.student_id'=>'students.id'])
+            ->where(['student_classes.year_id'=>$year])
+            ->join('program_levels', ['program_levels.id'=>'student_classes.class_id'])
+            ->join('campus_programs', function($query){
+                $query->on(['campus_programs.program_level_id'=>'program_levels.id'])
+                    ->on(['campus_programs.campus_id'=>'students.campus_id']);
+            })->join('payment_items', function($query){
+                $query->on(['payment_items.campus_program_id'=>'campus_programs.id'])
+                    ->on(['payment_items.year_id'=>'student_classes.year_id']);
+            })->join('payments', function($query){
+                $query->on(['payments.payment_id'=>'payment_items.id'])
+                    ->on(['payments.student_id'=>'students.id']);
+            })
+            ->select(['students.id', DB::raw("SUM(payments.amount) as amount")])
+            ->groupBy('students.id')->get()->sum('amount');
+
+        $extra_fee = Students::where('students.active' ,1)
+            ->join('student_classes', ['student_classes.student_id'=>'students.id'])
+            ->where(['student_classes.year_id'=>$year])
+            ->join('extra_fees', ['extra_fees.student_id'=>'students.id'])
+            ->where('extra_fees.year_id', $year)->sum('extra_fees.amount');
+
+        $scholarship = Students::where('students.active' ,1)
+            ->join('student_classes', ['student_classes.student_id'=>'students.id'])
+            ->where(['student_classes.year_id'=>$year])
+            ->join('student_scholarships', ['student_scholarships.student_id'=>'students.id'])
+            ->where('student_scholarships.batch_id', $year)->sum('student_scholarships.amount');
+
+        $expense = \App\Models\Expenses::sum('amount_spend');
+
+
+        $fs['expected'] = $fee_expected + $extra_fee;
+        $fs['paid'] = $fee_paid;
+        $fs['scholarship'] = $scholarship;
+        $fs['expenses'] = $expense;
+        $fs['cash'] = $fee_paid - $scholarship - $expense;
+        $fs['owed'] = $fee_expected - $fee_paid - $scholarship - $expense;
+        
+        $data['fee_summary'] = $fs;
+        // dd($fs);
+        
         return view('admin.dashboard', $data);
     }
 
@@ -151,7 +209,6 @@ class HomeController  extends Controller
         }
         return back()->with('error', __('text.error_reading_file'));
     }
-
 
     
     public function set_watermark()

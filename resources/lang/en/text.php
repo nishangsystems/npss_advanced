@@ -954,5 +954,7 @@ return [
     'cum_amount_paid'=>'cum.amount paid',
     'cum_amount_owing'=>'cum.amount owing',
     'departmental_courses'=>'departmental courses',
+    'cash_balance'=>'cash balance',
+    'word_expenses'=>'expenses',
     ''
 ];

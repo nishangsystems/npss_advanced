@@ -275,12 +275,11 @@ class StatisticsController extends Controller
     {
         # code...
         $students = \App\Models\StudentClass::where('student_classes.class_id', '=', $class_id)
-                                            ->where('student_classes.year_id', '=', $year)
-                                            ->join('students', 'students.id', '=', 'student_classes.student_id')
-                                            ->where('students.active', true)
-                                            ->where(function($q)use($campus_id){
-                                                $campus_id == null ? null : $q->where(['students.campus_id'=>$campus_id]);
-                                            })->distinct()->pluck('students.id')->toArray();  
+            ->where('student_classes.year_id', '=', $year)
+            ->join('students', 'students.id', '=', 'student_classes.student_id')
+            ->where('students.active', true)->where(function($q)use($campus_id){
+                $campus_id == null ? null : $q->where(['students.campus_id'=>$campus_id]);
+            })->distinct()->pluck('students.id')->toArray();  
         // dd($students);
         $return = [
             'unit' => ProgramLevel::find($class_id)->name(),

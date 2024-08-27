@@ -128,7 +128,7 @@
                         <a class="ace-icon fa fa-money fa-spin"></a>
                     </div>
                     <div class="infobox-data">
-                        <span class="infobox-text">{{ number_format($expected_fee??0) }}</span>
+                        <span class="infobox-text">{{ number_format($fee_summary['expected']??0) }}</span>
 
                         <div class="infobox-content">
                             {{ __('text.total_fee_expected') }}
@@ -143,7 +143,7 @@
                     </div>
 
                     <div class="infobox-data">
-                        <span class="infobox-text">{{ number_format($paid_fee??0) }}</span>
+                        <span class="infobox-text">{{ number_format($fee_summary['paid']??0) }}</span>
 
                         <div class="infobox-content">
                             {{ __('text.total_fee_paid') }}
@@ -158,7 +158,7 @@
                     </div>
                     
                     <div class="infobox-data">
-                        <span class="infobox-text">{{ number_format($owed_fee) }}</span>
+                        <span class="infobox-text">{{ number_format($fee_summary['owed']) }}</span>
                         
                         <div class="infobox-content">
                             {{ __('text.total_fee_owed') }}
@@ -172,10 +172,24 @@
                         <a class="ace-icon fa fa-money fa-spin"></a>
                     </div>
                     <div class="infobox-data">
-                        <span class="infobox-text">{{ number_format($recovered_debt??0) }}</span>
+                        <span class="infobox-text">{{ number_format($fee_summary['scholarship']??0) }}</span>
                         
                         <div class="infobox-content">
-                            {{ __('text.debts_recovered') }}
+                            {{ __('text.word_scholarship') }}
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="infobox border border-dark mx-2 my-1 rounded infobox-blue2">
+                    <div class="infobox-icon">
+                        <a class="ace-icon fa fa-money fa-spin"></a>
+                    </div>
+                    <div class="infobox-data">
+                        <span class="infobox-text">{{ number_format($fee_summary['expense']??0) }}</span>
+                        
+                        <div class="infobox-content">
+                            {{ __('text.word_expenses') }}
                         </div>
                     </div>
                 </div>
@@ -185,10 +199,10 @@
                         <a class="ace-icon fa fa-money fa-spin"></a>
                     </div>
                     <div class="infobox-data">
-                        <span class="infobox-text">{{ number_format($expected_reg_fee??0) }}</span>
+                        <span class="infobox-text">{{ number_format($fee_summary['cash']??0) }}</span>
 
                         <div class="infobox-content">
-                            {{ __('text.registration_fee_expected') }}
+                            {{ __('text.cash_balance') }}
                         </div>
                     </div>
                 </div>
