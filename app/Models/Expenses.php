@@ -11,7 +11,8 @@ class Expenses extends Model
     protected $fillable = [
         'name',
         'amount_spend',
-        'date'
+        'date',
+        'year_id'
     ];
     protected $connection = 'mysql';
 

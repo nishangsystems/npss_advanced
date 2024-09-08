@@ -56,6 +56,7 @@ class ExpenseController extends Controller
         $validateData = $request->validate([
             'name' => 'required|max:255|string',
             'amount_spend' => 'required|numeric',
+            'year_id'=>'required|numeric',
             'date' => 'required|date',
 
         ]);
@@ -76,6 +77,7 @@ class ExpenseController extends Controller
         $expense->amount_spend = $request->amount_spend;
         $expense->user_id = Auth::id();
         $expense->date = $request->date;
+        $expense->year_id = $request->year_id;
         $expense->save();
         return redirect()->route('admin.expense.index')->with('success', __('text.word_done'));
     }

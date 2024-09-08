@@ -7,6 +7,20 @@
         @enderror
     </div>
 </div>
+<div class="form-group @error('year_id') has-error @enderror ">
+    <label for="cname" class="control-label col-lg-2 text-capitalize">{{__('text.academic_year')}} <span style="color:red">*</span></label>
+    <div class="col-lg-10">
+        <select class=" form-control" name="year_id" value="" required>
+            <option value="">@lang('text.select_year')</option>
+            @foreach (\App\Models\Batch::all() as $year)
+                <option value="{{$year->id}}" {{old('year_id', $expense->year_id) == $year->id ? 'selected' : ''}}>{{$year->name??''}}</option>
+            @endforeach
+        </select>
+        @error('year_id')
+        <span class="invalid-feedback">{{ $message }}</span>
+        @enderror
+    </div>
+</div>
 <div class="form-group @error('amount_spend') has-error @enderror">
     <label for="cname" class="control-label col-lg-2 text-capitalize">{{__('text.word_amount')}} <span style="color:red">*</span></label>
     <div class="col-lg-10">
