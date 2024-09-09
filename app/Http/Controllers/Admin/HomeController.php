@@ -80,28 +80,28 @@ class HomeController  extends Controller
         // $schools = SchoolUnits::where('id', '<=', '2')->get();
         
         
-            $programs = SchoolUnits::where('school_units.unit_id', 4);
-            $program_students = SchoolUnits::where('school_units.unit_id', 4)->join('program_levels', 'program_levels.program_id', '=', 'school_units.id')
-                ->join('student_classes', 'student_classes.class_id', '=', 'program_levels.id')->where('student_classes.year_id', $year)
-                ->join('students', 'students.id', '=', 'student_classes.student_id')->where('students.active', 1)
-                ->where(function($query)use($campus_id){
-                    $campus_id != null ? $query->where('students.campus_id', $campus_id) : null;
-                })->distinct()->get(['school_units.id', 'school_units.name as program_name', 'school_units.id as program', 'students.id as student_id', 'students.gender', 'program_levels.level_id'])->groupBy('program')->each(function($rec)use($levels){
-                    // return $rec;
-                    $rec->levels = $levels->map(function($level)use($rec){
-                        return $rec->where('level_id', $level->id)->count();
-                    });
+        $programs = SchoolUnits::where('school_units.unit_id', 4);
+        $program_students = SchoolUnits::where('school_units.unit_id', 4)->join('program_levels', 'program_levels.program_id', '=', 'school_units.id')
+            ->join('student_classes', 'student_classes.class_id', '=', 'program_levels.id')->where('student_classes.year_id', $year)
+            ->join('students', 'students.id', '=', 'student_classes.student_id')->where('students.active', 1)
+            ->where(function($query)use($campus_id){
+                $campus_id != null ? $query->where('students.campus_id', $campus_id) : null;
+            })->distinct()->get(['school_units.id', 'school_units.name as program_name', 'school_units.id as program', 'students.id as student_id', 'students.gender', 'program_levels.level_id'])->groupBy('program')->each(function($rec)use($levels){
+                // return $rec;
+                $rec->levels = $levels->map(function($level)use($rec){
+                    return $rec->where('level_id', $level->id)->count();
                 });
+            });
 
-            $students = StudentClass::where('year_id', $year)->join('students', 'students.id', '=', 'student_classes.student_id')->where('students.active', 1)
-                ->where(function($query)use($campus){
-                    $campus != null ? $query->where('campus_id', $campus) : null;
-                })->distinct()->get(['students.*']);
+        $students = StudentClass::where('year_id', $year)->join('students', 'students.id', '=', 'student_classes.student_id')->where('students.active', 1)
+            ->where(function($query)use($campus){
+                $campus != null ? $query->where('campus_id', $campus) : null;
+            })->distinct()->get(['students.*']);
 
-                
-            $data['n_programs'] = SchoolUnits::where('unit_id', 4)->count();
-            $data['sms_total'] = Config::where('year_id', $year)->first()->sms_sent;
-            $data['n_teachers'] = User::where('type', 'teacher')->count();
+            
+        $data['n_programs'] = SchoolUnits::where('unit_id', 4)->count();
+        $data['sms_total'] = Config::where('year_id', $year)->first()->sms_sent;
+        $data['n_teachers'] = User::where('type', 'teacher')->count();
 
         // dd($students);
         $data['active_students'] = $students->where('active', 1);
@@ -158,7 +158,7 @@ class HomeController  extends Controller
             ->join('student_scholarships', ['student_scholarships.student_id'=>'students.id'])
             ->where('student_scholarships.batch_id', $year)->sum('student_scholarships.amount');
 
-        $expense = \App\Models\Expenses::sum('amount_spend');
+        $expense = \App\Models\Expenses::where('year_id', $year)->sum('amount_spend');
 
 
         $fs['expected'] = $fee_expected + $extra_fee;
@@ -166,7 +166,7 @@ class HomeController  extends Controller
         $fs['scholarship'] = $scholarship;
         $fs['expenses'] = $expense;
         $fs['cash'] = $fee_paid - $scholarship - $expense;
-        $fs['owed'] = $fee_expected - $fee_paid - $scholarship - $expense;
+        $fs['owed'] = $fee_expected - $fee_paid - $scholarship;
         
         $data['fee_summary'] = $fs;
         // dd($fs);

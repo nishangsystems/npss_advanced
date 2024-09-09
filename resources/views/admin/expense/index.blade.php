@@ -13,6 +13,7 @@
                     <tr class="text-capitalize">
                         <th>#</th>
                         <th>{{__('text.word_name')}}</th>
+                        <th>{{__('text.word_year')}}</th>
                         <th>{{__('text.amount_spent')}}({{__('text.currency_cfa')}})</th>
                         <th>{{__('text.word_date')}}</th>
                         <th></th>
@@ -24,6 +25,7 @@
                     <tr>
                         <td>{{$k+1}}</td>
                         <td>{!! $expense->name !!}</td>
+                        <td>{!! optional($expense->year)->name??'' !!}</td>
                         <td>{{number_format($expense->amount_spend)}}</td>
                         <td>{{date('jS F Y', strtotime($expense->date))}}</td>
                         <td class="d-flex justify-content-end  align-items-center">

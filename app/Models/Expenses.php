@@ -17,4 +17,8 @@ class Expenses extends Model
     protected $connection = 'mysql';
 
     protected $dates = ['date', 'created_at', 'updated_at'];
+
+    public function year() {
+        return $this->belongsTo(Batch::class, 'year_id');
+    }
 }

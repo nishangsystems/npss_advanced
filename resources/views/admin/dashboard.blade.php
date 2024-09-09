@@ -186,7 +186,7 @@
                         <a class="ace-icon fa fa-money fa-spin"></a>
                     </div>
                     <div class="infobox-data">
-                        <span class="infobox-text">{{ number_format($fee_summary['expense']??0) }}</span>
+                        <span class="infobox-text">{{ number_format($fee_summary['expenses']??0) }}</span>
                         
                         <div class="infobox-content">
                             {{ __('text.word_expenses') }}
