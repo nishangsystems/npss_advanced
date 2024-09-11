@@ -4,8 +4,7 @@
     <div class="col-sm-12">
         <div class="text-muted mb-3 d-flex justify-content-end">
             <a href="{{route('admin.fee.student.payments.create', $student->id)}}" class="btn btn-info btn-xs text-capitalize">{{__('text.collect_fee')}}</a>
-        </div>
-        
+        </div>       
 
         <div class="content-panel">
             @forelse($student->payments()->where(['batch_id'=>\App\Helpers\Helpers::instance()->getYear()])->get() as $item)
@@ -33,3 +32,4 @@
         </div>
     </div>
 @endsection
+ 
