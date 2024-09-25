@@ -46,7 +46,6 @@ class HomeController  extends Controller
 {
     public function index()
     {
-
         $year = request()->has('year') ? request('year') : Helpers::instance()->getCurrentAccademicYear();
         $campus_id = auth()->user()->campus_id;
         $expected_fees = PaymentItem::where('payment_items.year_id', $year)->where('payment_items.name', 'TUTION')
@@ -129,8 +128,7 @@ class HomeController  extends Controller
                     ->on(['payment_items.year_id'=>'student_classes.year_id']);
             })->distinct()->select(['students.id', DB::raw("SUM(payment_items.amount) as amount")])->groupBy('students.id')->get()->sum('amount');
 
-        $fee_paid = Students::where('students.active' ,1)
-            ->join('student_classes', ['student_classes.student_id'=>'students.id'])
+        $fee_paid = Students::join('student_classes', ['student_classes.student_id'=>'students.id'])
             ->where(['student_classes.year_id'=>$year])
             ->join('program_levels', ['program_levels.id'=>'student_classes.class_id'])
             ->join('campus_programs', function($query){
@@ -143,6 +141,7 @@ class HomeController  extends Controller
                 $query->on(['payments.payment_id'=>'payment_items.id'])
                     ->on(['payments.student_id'=>'students.id']);
             })
+            ->whereNull('deleted_at')
             ->select(['students.id', DB::raw("SUM(payments.amount) as amount")])
             ->groupBy('students.id')->get()->sum('amount');
 
@@ -165,7 +164,7 @@ class HomeController  extends Controller
         $fs['paid'] = $fee_paid;
         $fs['scholarship'] = $scholarship;
         $fs['expenses'] = $expense;
-        $fs['cash'] = $fee_paid - $scholarship - $expense;
+        $fs['cash'] = $fee_paid - $expense;
         $fs['owed'] = $fee_expected - $fee_paid - $scholarship;
         
         $data['fee_summary'] = $fs;
@@ -209,7 +208,6 @@ class HomeController  extends Controller
         }
         return back()->with('error', __('text.error_reading_file'));
     }
-
     
     public function set_watermark()
     {
@@ -241,7 +239,6 @@ class HomeController  extends Controller
         }
         return back()->with('error', __('text.error_reading_file'));
     }
-
 
     public function set_background_image()
     {
@@ -321,12 +318,12 @@ class HomeController  extends Controller
     {
         # code...
         $conf = Helpers::instance()->campusSemesterConfig($semester, $campus);
-            if ($conf->count() == 0) {
-                # code...
-                return ['semester'=>Semester::find($semester)->name, 'date_line'=>__('text.DATELINE_NOT_SET')];
-            }
-            // return __DIR__;
-            return ['semester'=>Semester::find($semester)->name, 'date_line'=>date('l d-m-Y', strtotime($config->first()->courses_date_line)), 'date'=>$config->first()->courses_date_line];
+        if ($conf->count() == 0) {
+            # code...
+            return ['semester'=>Semester::find($semester)->name, 'date_line'=>__('text.DATELINE_NOT_SET')];
+        }
+        // return __DIR__;
+        return ['semester'=>Semester::find($semester)->name, 'date_line'=>date('l d-m-Y', strtotime($config->first()->courses_date_line)), 'date'=>$config->first()->courses_date_line];
     }
 
     public function program_settings(Request $request)
@@ -352,7 +349,6 @@ class HomeController  extends Controller
         }
         return back()->with('error', __('text.page_not_found'));
     }
-
 
     public function setsemester(Request $request)
     {
@@ -420,8 +416,6 @@ class HomeController  extends Controller
         DB::table('batches')->where('id', '=', $id)->delete();
         return redirect()->back()->with('success', __('text.word_done'));
     }
-
-
 
     public function setAcademicYear($id)
     {
