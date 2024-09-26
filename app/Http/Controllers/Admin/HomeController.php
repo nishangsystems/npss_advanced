@@ -58,14 +58,14 @@ class HomeController  extends Controller
                 $campus_id != null ? $query->where('students.campus_id', $campus_id) : null;
             })->distinct()->get(['students.id as student_id', 'campus_programs.campus_id', 'payment_items.campus_program_id', 'students.matric', 'payment_items.amount']);
 
-        $payments = Payments::where('batch_id', $year)->whereIn('student_id', $expected_fees->pluck('student_id')->whereNull('deleted_at')->toArray());
+        $payments = Payments::withoutTrashed()->where('batch_id', $year)->select([DB::raw("SUM(amount - debt) as amt")])->get();
 
         $other_incomes = Income::where('year_id', $this->current_accademic_year)->join('pay_incomes', 'pay_incomes.income_id', '=', 'incomes.id')->select('incomes.id', 'incomes.name', DB::raw('sum(pay_incomes.amount) as amount'))->groupBy('id')->get();
 
         $levels = Level::all();
         $data['other_incomes'] = $other_incomes;
         $data['expected_fee'] = $expected_fees->sum('amount');
-        $data['paid_fee'] = $payments->sum('amount') - $payments->sum('debt');
+        $data['paid_fee'] = $payments->sum('amt');
         $data['owed_fee'] = $data['expected_fee'] - $data['paid_fee'];
         $data['levels'] = $levels;
 
@@ -128,22 +128,10 @@ class HomeController  extends Controller
                     ->on(['payment_items.year_id'=>'student_classes.year_id']);
             })->distinct()->select(['students.id', DB::raw("SUM(payment_items.amount) as amount")])->groupBy('students.id')->get()->sum('amount');
 
-        $fee_paid = Students::join('student_classes', ['student_classes.student_id'=>'students.id'])
-            ->where(['student_classes.year_id'=>$year])
-            ->join('program_levels', ['program_levels.id'=>'student_classes.class_id'])
-            ->join('campus_programs', function($query){
-                $query->on(['campus_programs.program_level_id'=>'program_levels.id'])
-                    ->on(['campus_programs.campus_id'=>'students.campus_id']);
-            })->join('payment_items', function($query){
-                $query->on(['payment_items.campus_program_id'=>'campus_programs.id'])
-                    ->on(['payment_items.year_id'=>'student_classes.year_id']);
-            })->join('payments', function($query){
-                $query->on(['payments.payment_id'=>'payment_items.id'])
-                    ->on(['payments.student_id'=>'students.id']);
-            })
+        $fee_paid = Payments::where('batch_id', $year)
             ->whereNull('deleted_at')
-            ->select(['students.id', DB::raw("SUM(payments.amount) as amount")])
-            ->groupBy('students.id')->get()->sum('amount');
+            ->select([DB::raw("SUM(payments.amount) as amount")])
+            ->get()->sum('amount');
 
         $extra_fee = Students::where('students.active' ,1)
             ->join('student_classes', ['student_classes.student_id'=>'students.id'])
