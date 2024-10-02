@@ -181,6 +181,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::get('fee/collect', 'Admin\FeesController@collect')->name('fee.collect');
     Route::get('fee/reg/collect', 'Admin\FeesController@collect_registration')->name('fee.registration.collect');
     Route::get('fee/daily_report', 'Admin\FeesController@daily_report')->name('fee.daily_report');
+    Route::get('fee/payment_details', 'Admin\FeesController@payment_details')->name('fee.payment_details');
     Route::get('fee/{id}', 'Admin\FeesController@fee')->name('fee.list');
     Route::delete('fee/{id}', 'Admin\FeesController@delete')->name('fee.destroy');
     Route::get('fee/{class_id}/report', 'Admin\FeesController@report')->name('fee.report');

@@ -956,5 +956,8 @@ return [
     'departmental_courses'=>'departmental courses',
     'cash_balance'=>'cash balance',
     'word_expenses'=>'expenses',
+    'detailed_payment_report'=>'detailed payment report',
+    'record_by'=>'record by',
+    'pre-paid_fee'=>'pre-paid fee',
     ''
 ]; 

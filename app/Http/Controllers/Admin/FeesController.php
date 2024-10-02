@@ -76,6 +76,20 @@ class FeesController extends Controller
         return view('admin.fee.daily_report', compact('fees', 'title'));
     }
 
+    public function payment_details(){
+        $year = $this->current_accademic_year;
+        $data['title'] = "Detailed Payments Report";
+        // $data['payments'] = Payments::where('payment_year_id', $year)
+        //     ->orderBy('created_at', 'DESC')->get()->groupBy('student_id');
+        // $data['total'] = Payments::where('payment_year_id', $year)->sum('amount');
+        $data['payments'] = Payments::where('payment_year_id', $year)->join('students', ['students.id'=>'payments.student_id'])
+            ->select('payments.*')->orderBy('payments.created_at', 'DESC')->get()->groupBy('student_id');
+        $data['total'] = Payments::where('payment_year_id', $year)->join('students', ['students.id'=>'payments.student_id'])->select([DB::raw("SUM(payments.amount - payments.debt) as total")])->get()->sum('total');
+            
+        // dd($data);
+        return view('admin.fee.payments.details', $data);
+    }
+
     public function fee(Request  $request)
     {
         $type = request('type', 'completed');

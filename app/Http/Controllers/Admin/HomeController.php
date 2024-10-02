@@ -58,7 +58,7 @@ class HomeController  extends Controller
                 $campus_id != null ? $query->where('students.campus_id', $campus_id) : null;
             })->distinct()->get(['students.id as student_id', 'campus_programs.campus_id', 'payment_items.campus_program_id', 'students.matric', 'payment_items.amount']);
 
-        $payments = Payments::withoutTrashed()->where('batch_id', $year)->select([DB::raw("SUM(amount - debt) as amt")])->get();
+        $payments = Payments::withoutTrashed()->where('payments.batch_id', $year)->join('students', ['students.id'=>'payments.student_id'])->select([DB::raw("SUM(payments.amount - payments.debt) as amt")])->get();
 
         $other_incomes = Income::where('year_id', $this->current_accademic_year)->join('pay_incomes', 'pay_incomes.income_id', '=', 'incomes.id')->select('incomes.id', 'incomes.name', DB::raw('sum(pay_incomes.amount) as amount'))->groupBy('id')->get();
 
@@ -129,10 +129,11 @@ class HomeController  extends Controller
             })->distinct()->select(['students.id', DB::raw("SUM(payment_items.amount) as amount")])->groupBy('students.id')->get()->sum('amount');
 
         $fee_paid = Payments::where('batch_id', $year)
-            ->whereNull('deleted_at')
-            ->select([DB::raw("SUM(payments.amount) as amount")])
+            ->whereNull('deleted_at')->join('students', ['students.id'=>'payments.student_id'])
+            ->select([DB::raw("SUM(payments.amount - payments.debt) as amount")])
             ->get()->sum('amount');
-
+        // $fee_paid = 900000;
+  
         $extra_fee = Students::where('students.active' ,1)
             ->join('student_classes', ['student_classes.student_id'=>'students.id'])
             ->where(['student_classes.year_id'=>$year])

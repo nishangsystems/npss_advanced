@@ -579,6 +579,14 @@
                         <b class="arrow"></b>
                     </li>
 
+                    <li>
+                        <a href="{{route('admin.fee.payment_details')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.detailed_payment_report')}}
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
                      <li>
                         <a href="{{route('admin.import_fee')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
