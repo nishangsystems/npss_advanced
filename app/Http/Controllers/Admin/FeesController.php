@@ -83,7 +83,7 @@ class FeesController extends Controller
         //     ->orderBy('created_at', 'DESC')->get()->groupBy('student_id');
         // $data['total'] = Payments::where('payment_year_id', $year)->sum('amount');
         $data['payments'] = Payments::where('payment_year_id', $year)->join('students', ['students.id'=>'payments.student_id'])
-            ->select('payments.*')->orderBy('payments.created_at', 'DESC')->get()->groupBy('student_id');
+            ->select('payments.*')->orderBy('payments.unit_id')->orderBy('payments.created_at', 'DESC')->get()->groupBy('student_id');
         $data['total'] = Payments::where('payment_year_id', $year)->join('students', ['students.id'=>'payments.student_id'])->select([DB::raw("SUM(payments.amount - payments.debt) as total")])->get()->sum('total');
             
         // dd($data);

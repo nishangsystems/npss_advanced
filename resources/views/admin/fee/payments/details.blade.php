@@ -9,6 +9,7 @@
                     <th>@lang('text.word_matricule')</th>
                     <th>@lang('text.word_name')</th>
                     {{-- <th>@lang('text.total_paid') (@lang('text.currency_cfa'))</th> --}}
+                    <th>@lang('text.word_class')</th>
                     <th>@lang('text.word_amount') (@lang('text.currency_cfa'))</th>
                     <th>@lang('text.pre-paid_fee') (@lang('text.currency_cfa'))</th>
                     <th>@lang('text.paid_on')</th>
@@ -26,6 +27,7 @@
                             {{-- @if($c == 0)
                                 <td rowspan="{{$payment_group->count()}}"><b>{{number_format($payment_group->sum('amount'))}}</b></td> 
                             @endif --}}
+                            <td class="border-left border-right">{{$payment->class->name()??''}}</td>
                             <td class="border-left border-right">{{$payment->amount??''}}</td>
                             <td class="border-left border-right">{{-1*($payment->debt??0)}}</td>
                             <td class="border-left border-right">{{$payment->created_at == null ? '' : $payment->created_at->format('l dS m Y @ H:m')}}</td>
