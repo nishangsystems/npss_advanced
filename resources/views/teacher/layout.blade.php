@@ -385,7 +385,9 @@
     </div>
     <div class="main-content">
         <div class="main-content-inner">
-
+            
+            <marquee behavior="" direction="" style="font-weight: 700; font-size: large; color: #c83c3cff;">Your plan expires by September 25th 2025. Renew your plan to continue using the system</marquee>
+            
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
                 <ul class="breadcrumb">
                     <li>
