@@ -1546,6 +1546,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" ></script>
 <script>
     $(function () {
+
         $('.table , .adv-table table').DataTable({
             responsive: true,
             dom: 'Bfrtip',
@@ -1618,6 +1619,9 @@
     $('#menu-toggler').on('click', function(){
         $('#sidebar').toggleClass('d-block');
     })
+
+    alert("Your subscription plan has expired. Renew your plan to continue using the system");
+    window.location.href = "{{ request()->url() }}";
 </script>
 
 <script src="{{ asset('libs')}}/datatables.net/js/dataTables.buttons.min.js"></script>
