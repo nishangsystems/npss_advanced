@@ -718,8 +718,6 @@
 
     });
 
-    alert("Your subscription plan has expired. Renew your plan to continue using the system");
-    // window.location.href = "{{ request()->url() }}";
 
 </script>
 

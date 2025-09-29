@@ -105,7 +105,6 @@
 					<span style="color: white; text-shadow: -1px -1px 0 #670f0e, 1px -1px 0 #670f0e, -1px 1px 0 #670f0e, 1px 1px 0 #670f0e; font-weight: bolder; font-size: xx-large; transform: skew(12deg, 17deg) !important;">{{env('APP_NAME')}}</span></b>
 				</h3>
 			</div>
-			<marquee behavior="" direction="" style="font-weight: 700; font-size: large; color: #c83c3cff; margin-bottom: 2rem;">Your plan expires by September 25th 2025. Renew your plan to continue using the system</marquee>
 			<div class="main-content">
 				<div class="w-100">
 						<div class="login-container" id="login-frame">
