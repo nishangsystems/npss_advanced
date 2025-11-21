@@ -60,7 +60,9 @@ class HomeController  extends Controller
 
         $payments = Payments::withoutTrashed()->where('payments.batch_id', $year)->join('students', ['students.id'=>'payments.student_id'])->select([DB::raw("SUM(payments.amount - payments.debt) as amt")])->get();
 
-        $other_incomes = Income::where('year_id', $this->current_accademic_year)->join('pay_incomes', 'pay_incomes.income_id', '=', 'incomes.id')->select('incomes.id', 'incomes.name', DB::raw('sum(pay_incomes.amount) as amount'))->groupBy('id')->get();
+        $other_incomes = Income::join('pay_incomes', 'pay_incomes.income_id', '=', 'incomes.id')
+            ->where('pay_incomes.batch_id', $year)
+            ->select('incomes.id', 'incomes.name', DB::raw('sum(pay_incomes.amount) as amount'))->groupBy('id')->get();
 
         $levels = Level::all();
         $data['other_incomes'] = $other_incomes;
