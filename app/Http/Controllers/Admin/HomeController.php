@@ -131,7 +131,7 @@ class HomeController  extends Controller
             })->distinct()->select(['students.id', DB::raw("SUM(payment_items.amount) as amount")])->groupBy('students.id')->get()->sum('amount');
 
         $fee_paid = Payments::where('batch_id', $year)
-            ->whereNull('deleted_at')->join('students', ['students.id'=>'payments.student_id'])
+            ->join('students', ['students.id'=>'payments.student_id'])
             ->select([DB::raw("SUM(payments.amount - payments.debt) as amount")])
             ->get()->sum('amount');
         // $fee_paid = 900000;

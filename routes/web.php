@@ -182,6 +182,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::get('fee/reg/collect', 'Admin\FeesController@collect_registration')->name('fee.registration.collect');
     Route::get('fee/daily_report', 'Admin\FeesController@daily_report')->name('fee.daily_report');
     Route::get('fee/payment_details', 'Admin\FeesController@payment_details')->name('fee.payment_details');
+    Route::get('fee/general_report', [Admin\FeesController::class, 'general_fee_report'])->name('fee.general_report');
+    Route::post('fee/general_report', [Admin\FeesController::class, 'general_fee_report_generate']);
     Route::get('fee/{id}', 'Admin\FeesController@fee')->name('fee.list');
     Route::delete('fee/{id}', 'Admin\FeesController@delete')->name('fee.destroy');
     Route::get('fee/{class_id}/report', 'Admin\FeesController@report')->name('fee.report');
@@ -237,7 +239,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::get('expenses/{id}/edit', 'Admin\Expense\ExpenseController@edit')->name('expense.edit');
     Route::put('expenses/{id}/', 'Admin\Expense\ExpenseController@update')->name('expense.update');
     Route::delete('expenses/{id}/delete', 'Admin\Expense\ExpenseController@destroy')->name('expense.destroy');
-
+    
     Route::prefix('fee/{class_id}')->name('fee.')->group(function () {
         Route::resource('list', 'Admin\ListController');
     });
@@ -580,7 +582,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     
     Route::get('charges/set', 'Admin\HomeController@set_charges')->name('charges.set');
     Route::post('charges/set', 'Admin\HomeController@save_charges')->name('charges.save');
-    
+   
     Route::get('user/block/{user_id}', 'Admin\HomeController@block_user')->name('block_user');
     Route::get('user/activate/{user_id}', 'Admin\HomeController@activate_user')->name('activate_user');
 
