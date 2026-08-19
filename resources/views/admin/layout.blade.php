@@ -634,6 +634,14 @@
                         </a>
                         <b class="arrow"></b>
                     </li>
+                    
+                    <li>
+                        <a href="{{route('admin.fee.general_report')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.general_fee_report')}}
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
 
 
 

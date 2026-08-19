@@ -959,5 +959,6 @@ return [
     'detailed_payment_report'=>'detailed payment report',
     'record_by'=>'record by',
     'pre-paid_fee'=>'pre-paid fee',
+    'general_fee_report' => 'general fee report',
     ''
 ]; 
