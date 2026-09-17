@@ -20,6 +20,7 @@ use App\Http\Resources\StudentFee;
 use App\Http\Resources\StudentResource;
 use App\Http\Resources\StudentResourceMain;
 use App\Models\Campus;
+use App\Models\CampusProgram;
 use App\Models\Color;
 use App\Models\ExtraFee;
 use App\Models\PaymentItem;
@@ -482,6 +483,72 @@ class HomeController extends Controller
                 'extra_fee'=>$current_extra_fees, 
                 'cum_extra_fee'=>$cum_extra_fees, 
                 'owing'=>$cum_fee_items->sum('amount') + $cum_extra_fees - ($current_payments + $cum_scholarship),
+                'class'=>$class->name()
+            ];
+        }
+
+        return ['students'=>collect($data)->sortBy('name')];
+        // dd($data);
+
+    }
+
+    // return payload: [{'id':number, 'name'": string, 'matric': string, 'link':url, 'paid': number, 'owing': number, 'scholarship':number, 'class':string}];
+    public static function general_fee_report(Request $request)
+    {
+        # code...
+        $year = request('year_id', Helpers::instance()->getCurrentAccademicYear());
+
+        // $st_classes = $class->student_classes()->join('students', 'students.id', '=', 'student_classes.student_id')->groupBy(['student_classes.year_id', 'students.campus_id'])->select(['students.campus_id', 'student_classes.id', 'student_classes.class_id', 'student_classes.id', 'student_classes.year_id'])->distinct()->get();
+        // dd($st_classes);
+
+        $data = [];
+        $campus_id = auth()->user()->campus_id??null;
+        foreach (Students::join('student_classes', ['student_classes.student_id' => 'students.id'])->where('student_classes.year_id', $request->year_id)->where(function($query)use($campus_id){
+            if($campus_id != null) $query->where('campus_id', $campus_id);
+        })->select(['students.*', 'student_classes.class_id'])->get() as $key => $student) {
+            
+            $items = [];
+            # code...
+            $class = $student->_class($request->year_id);
+            if(($it = $class->single_payment_item($student->campus_id, $year)->where('name', 'TUTION')->get()->first()) != null){
+                $items[] = $it;
+            };
+            
+            $fee_items = collect($items);
+
+            $cum_fee_items = $fee_items->filter(function($row)use($year){
+                return $row != null && $row->year_id <= $year;
+            });
+            // $past_fee = $fee_items->filter(function($row)use($year){
+            //     return $row != null && $row->year_id < $year;
+            // });
+
+            $_payments = Payments::where('student_id', $student->id)->whereIn('payment_id', $fee_items->pluck('id')->toArray())->distinct()->get();
+            // $_current_payments = Payments::where('student_id', $student->id)->whereIn('payment_id', $cum_fee_items->pluck('id')->toArray())->where('payment_year_id', '<=', $year)->distinct()->get();
+            // $past_payments = Payments::where('student_id', $student->id)->whereIn('payment_id', $past_fee->pluck('id')->toArray())->where('payment_year_id', '<=', $year)->distinct()->get();
+            // $payments = $_payments->sum('amount') - $_payments->sum('debt');
+            // $current_payments = $_current_payments->sum('amount') - $_payments->sum('debt');
+
+            $current_scholarship = StudentScholarship::where('student_id', $student->id)->where('batch_id', '<=', $year)->distinct()->sum('amount');
+            // $cum_scholarship = StudentScholarship::where('student_id', $student->id)->where('batch_id', '<=', $year)->distinct()->sum('amount');
+            // $past_scholarship = StudentScholarship::where('student_id', $student->id)->where('batch_id', '<', $year)->distinct()->sum('amount');
+
+            $current_extra_fees = ExtraFee::where('student_id', $student->id)->where('year_id', '=', $year)->distinct()->sum('amount');
+            // $cum_extra_fees = ExtraFee::where('student_id', $student->id)->where('year_id', '<=', $year)->distinct()->sum('amount');
+            // $past_extra_fees = ExtraFee::where('student_id', $student->id)->where('year_id', '<', $year)->distinct()->sum('amount');
+
+            // dd($fee_items);
+            $data[] = [
+                'id'=>$student->id, 'name'=>$student->name, 'matric'=>$student->matric,
+                'link'=>route('admin.fee.student.payments.index', $student->id),
+                'current_fee'=>$cum_fee_items->where('year_id', $year)->first()->amount??0,
+                // 'debt'=>($past_fee->sum('amount') + $past_extra_fees) - (($past_payments->sum('amount') - $past_payments->sum('debt') + $past_scholarship)),
+                // 'paid'=>$current_payments, 'scholarship'=>$current_scholarship, 'total'=>$cum_fee_items->sum('amount')+$cum_extra_fees,
+                'current_paid'=>$_payments->where('batch_id', $year)->sum('amount'),
+                'scholarship'=>$current_scholarship,
+                'extra_fee'=>$current_extra_fees, 
+                // 'cum_extra_fee'=>$cum_extra_fees, 
+                // 'owing'=>$cum_fee_items->sum('amount') + $cum_extra_fees - ($current_payments + $cum_scholarship),
                 'class'=>$class->name()
             ];
         }

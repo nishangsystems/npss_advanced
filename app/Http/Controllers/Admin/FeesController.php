@@ -436,9 +436,10 @@ class FeesController extends Controller
             $request->validate(['year_id' => 'required|exists:batches,id']);
 
             $year_id = $request->year_id;
-            $sql_command = "SELECT clsdata.class, stdata.matric, stdata.name, stdata.student_id, stdata.class_id, fdata.name as type, fdata.amount as expected, fpayments.amount as paid from (SELECT program_levels.id, CONCAT(school_units.name, ': ', levels.level) as class FROM program_levels JOIN levels on levels.id = program_levels.level_id JOIN school_units on school_units.id = program_levels.program_id WHERE 1) as clsdata JOIN (SELECT DISTINCT students.matric, students.name, students.campus_id, student_classes.student_id, student_classes.class_id, student_classes.year_id from students JOIN student_classes on student_classes.student_id = students.id where student_classes.year_id = __YEAR_ID__) as stdata on stdata.class_id = clsdata.id LEFT JOIN (SELECT payment_items.id, payment_items.campus_program_id, campus_programs.campus_id, campus_programs.program_level_id, payment_items.name, SUM(payment_items.amount) as amount, payment_items.year_id from campus_programs JOIN payment_items on payment_items.campus_program_id = campus_programs.id and payment_items.year_id = __YEAR_ID__ group by payment_items.campus_program_id) as fdata on stdata.campus_id = fdata.campus_id and stdata.year_id = fdata.year_id and stdata.class_id = fdata.program_level_id LEFT JOIN (SELECT payments.student_id, SUM(payments.amount) as amount, payment_items.name FROM payments JOIN payment_items on payment_items.id = payments.payment_id WHERE payments.batch_id = __YEAR_ID__ group by payments.student_id) as fpayments on fpayments.student_id = stdata.student_id order by clsdata.class, stdata.matric";
-            $command = str_replace('__YEAR_ID__', $year_id, $sql_command);
-            $data = collect(DB::select($command));
+            
+            $data = collect(HomeController::general_fee_report($request)['students']);
+
+            // dd($data);
 
             if($data->count() > 0){
                 
@@ -448,15 +449,16 @@ class FeesController extends Controller
                 ];
                 return response()->streamDownload(function()use($data){
                     $file_stream = fopen('php://output', 'w');
-                    $headings = ['NAME', 'CLASS', 'TOTAL AMOUNT', 'AMOUNT PAID', 'AMOUNT OWED'];
+                    $headings = ['NAME', 'CLASS', 'TOTAL AMOUNT', 'AMOUNT PAID', 'AMOUNT OWED', 'SCHOLARSHIP'];
                     fputcsv($file_stream, $headings);
                     foreach($data as $rec){
                         fputcsv($file_stream, [
-                            $rec->matric.' - '.$rec->name,
-                            $rec->class, 
-                            $rec->expected,
-                            $rec->paid,
-                            $rec->expected - $rec->paid
+                            $rec['matric'].' - '.$rec['name'],
+                            $rec['class'], 
+                            $rec['current_fee'],
+                            $rec['current_paid'],
+                            $rec['current_fee'] - $rec['current_paid'],
+                            $rec['scholarship']
                         ]);
                     }
                     fclose($file_stream);
